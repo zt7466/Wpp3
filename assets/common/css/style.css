@@ -1,0 +1,28 @@
+.card {
+    box-shadow: 0 4px 10px 1px rgba(0,0,0,0.2);
+    /*border: 1px solid rgb(220,220,220);*/
+    transition: 0.3s;
+    margin: 8px 4px 8px 4px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.card-contents {
+    padding: 2px 16px;
+}
+
+.card-header {
+    color: white;
+    padding: 2px;
+}
+
+.card-header > h2 {
+    margin: 0px;
+    padding: 0px;    
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
