@@ -1,0 +1,261 @@
+\documentclass{scrreprt}
+\usepackage[paper=letterpaper,margin=1in]{geometry}% http://ctan.org/pkg/geometry
+\usepackage{listings}
+\usepackage{underscore}
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=false,                                    % show bookmarks bar?
+    pdftitle={Software Requirement Specification},      % title
+    pdfauthor={Yiannis Lazarides},                      % author
+    pdfsubject={Crew Scoreboard Specification},         % subject of the document
+    pdfkeywords={TeX, LaTeX, graphics, images},         % list of keywords
+    colorlinks=true,                                    % false: boxed links; true: colored links
+    linkcolor=blue,                                     % color of internal links
+    citecolor=black,                                    % color of links to bibliography
+    filecolor=black,                                    % color of file links
+    urlcolor=purple,                                    % color of external links
+    linktoc=page                                        % only page is linked
+}%
+
+\def\myversion{0.1 }
+\def\hrulefill{\leavevmode\leaders\hrule height 5pt\hfill\kern\z}
+
+\usepackage{ocr}
+\usepackage[T1]{fontenc}
+
+%\usepackage[firstpage=true]{background}
+
+%\backgroundsetup{
+%contents={\includegraphics{NullpointerLogo}},
+%angle=0,
+%scale=0.5,
+%color=black,
+%opacity=0.2
+%}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\usepackage{float}% If comment this, figure moves to Page 2
+
+\begin{document}
+
+
+\begin{titlepage}
+\ocrfamily
+\flushright
+\hrulefill\\
+\vspace*{\fill}
+\Huge{SOFTWARE REQUIREMENTS\\ OUTLINE}\\
+\vspace{2cm}
+for\\
+\vspace{2cm}
+Crew Scores Dashboard\\
+\vspace{2cm}
+\vspace{2cm}
+\LARGE{Version \myversion\\}
+\vspace{2cm}
+Prepared by Team 3\\
+{\small J. Steward, B. Olah, D. Rife, Z. Thompson, R. Hess}\\
+\vfill
+\hrulefill
+\end{titlepage}
+
+\date{}
+
+\tableofcontents
+\chapter{Introduction}
+    \section{Purpose}
+    
+This project has two purposes: a) to fulfill the requirements for the final group project in our web programming course, and b) to create a scoreboard for the crew competition in the CS department at Shippensburg University which will be useful going forward.
+    
+    \section{Project Scope and Product Features}
+
+Due to limited time, this project will have a narrow scope. In essence, it must track the points scored by each of the three teams on various events, track the events and what happened during them, provide a public interface where students may view the current point total, and allow faculty to update the stored information. 
+
+Although most of the faculty probably are comfortable manipulating mysql databases from the command line, it is not the smoothest user experience. Because of this an interface must be provided which will allow the faculty to update the points and events without leaving the comfort of their web browsers.
+
+Because allowing public access to the stored data will quickly devolve into chaos, an access control system must be in place over the interface for updating points. This access control system must not be a burden, and should function like the user accounts would on any other site.
+
+Finally, to meet the requirement of 5 tables in the database, a system will be provided which allows anyone to subscribe to email notifications which will be sent when events and points are updated. To prevent mischief, this system must comply with the CAN-SPAM act, and verify ownership of the email address entered before sending any further email notifications.
+    
+\chapter{Overall Description}
+    \section{Basic Requirements}
+    
+    \begin{enumerate}
+        \item Track the points each crew earns from various events.  This means tracking:
+        \begin{itemize}
+            \item Teams (Team Name, Color, Logo)
+            \item Points (Points Earned by each Team at each Event)
+            \item Events (Event Name, Description, Date, Points)
+        \end{itemize}
+        
+        \item New events should only be enter-able by faculty. This means a user system will be needed.
+        \begin{itemize}
+            \item Track each user's info (Email, Password (hashed & salted))
+            \item Existing users should be able to add/remove other users
+            \item Existing users should not be able to remove themselves
+            \item Existing users should be able to change their password
+            \item Once logged in, users should be able to add/remove/edit events, add/remove/edit teams, and add/remove/edit the number of points a team earned
+        \end{itemize}
+        \item Weekly email updates should be automatically sent out to anyone who signs up.
+        \begin{itemize}
+            \item This must comply with the CAN-SPAM act. This means:
+            \begin{itemize}
+                \item A user may unsubscribe via a single click of a single link in any email sent
+                \item A confirmation email must be sent and followed before any other emails will be sent to that user
+            \end{itemize}
+        \end{itemize}
+        \item The main page of the website should list each team, along with their current score totals
+        \item There should be a place to view a list of all of the events, sorted as desired by the user        
+    \end{enumerate}
+    
+\chapter{Database}
+    \section{Schema}
+    The database will need the following tables:
+    
+    \begin{itemize}
+        \item Teams - Stores all the teams
+        \begin{itemize}
+            \item ID: Integer, Primary Key - A unique Id
+            \item Name: VARCHAR(n) - The team name
+            \item Logo - The team logo, stored as a file path or a blob
+            \item Color: VARCHAR(6) - The HTML Color code of the team color
+        \end{itemize}
+        
+        \item Points - Linking table between teams and events, with added data (points)
+        \begin{itemize}
+            \item ID: Integer, Primary Key - A unique Id
+            \item Points: Integer - Points earned by Team in Event
+            \item Event: FK(Events)
+            \item Team: FK(Teams)
+        \end{itemize}
+        
+        \item Events - Stores all the events
+        \begin{itemize}
+            \item ID: Integer, Primary Key - A unique Id
+            \item Name: VARCHAR(n) - The short event title
+            \item Date: Date - The day the event happened, or will happen
+            \item Description: VARCHAR(n) - A description of the event and the outcome
+        \end{itemize}
+        
+        \item Users - Stores all of the user logons
+        \begin{itemize}
+            \item ID: Integer, Primary Key - A unique Id
+            \item Username: VARCHAR(n) - The username
+            \item Password: VARCHAR(n) - The SALTED & HASHED password. Yes it needs to be salted and hashed.
+            \item Token: VARCHAR(n) - A unique token used to track logins
+            \item TokenValidity: Date - The date the token was issued
+            \item LastLogin: Date - Date of the last time a user logged in            
+        \end{itemize}
+        
+        \item Emails - Contains all of the email subscriptions
+        \begin{itemize}
+            \item ID: Integer, Primary Key - A unique Id
+            \item Email: VARCHAR(n) - The email address
+            \item Verified: Boolean - Whether the email has been successfully validated or not
+            \item UnsubscribeId: Integer, Unique - A unique ID (possibly a GUID) used to unsubscribe from email notifications
+            \item SubscribeId: Integer, Unique - A unique ID used to verify email subscriptions
+        \end{itemize}
+    \end{itemize}
+        
+    \subsection{ER Diagram}
+    
+\begin{figure}[H]
+\caption{ER Diagram}
+\centering
+\includegraphics[width=\textwidth]{"ERDiagram".png}
+\end{figure}    
+    
+    \section{Translation}
+    
+    A translation layer should be written to sit above the database and provide a nice, abstract set of methods and objects to manipulate the database.
+    
+\chapter{User Interface}
+    \section{Design}
+    Overall, the project will follow a material design aesthetic.
+    
+    Every page has the same header and footer.
+        
+    \section{Pages}
+    
+    If the user is a professor and is logged in, a floating button will be at the bottom corner of the home page that connects to event creation page.
+    
+    \begin{itemize}
+        \item Home: Shows overall score for each team, shows cards with recent news/events, upcoming events, teams, and point values.
+        \item Header: connects to login page, user creation, subscribe, and home page. 
+        \item Footer: connects to about page, possibly more?
+        \item News: Shows info about the event and connects to edit points page.
+        \item Team: Shows info about the team, such as their score and team leader.
+        \item Subscribe: Allows the user to enter an email address to receive updates/news.
+    \end{itemize}    
+    
+    \subsection{Pageflow Diagram}
+    
+\begin{figure}[H]
+\caption{Pageflow Diagram}
+\centering
+\includegraphics[width=\textwidth]{"Page Diagram".png}
+\end{figure}    
+    
+    \clearpage
+    \section{Wireframes}
+    The following wireframes are a rough mockup of most of the main, user-facing pages.    
+    
+\begin{figure}[H]
+\caption{Homepage while signed out}
+\centering
+\includegraphics[width=\textwidth]{"Homepage - Logged Out".png}
+\end{figure}  
+
+\begin{figure}[H]
+\caption{Homepage while signed in}
+\centering
+\includegraphics[width=\textwidth]{"Homepage - Logged In".png}
+\end{figure}    
+
+\begin{figure}[H]
+\caption{After clicking the '+' button while logged in}
+\centering
+\includegraphics[width=\textwidth]{"Add event page".png}
+\end{figure}    
+
+\begin{figure}[H]
+\caption{Subscribe to email notifications}
+\centering
+\includegraphics[width=\textwidth]{"Email signup".png}
+\end{figure}    
+        
+\chapter{Task Division}
+    \section{Tasks}
+    \begin{itemize}
+        \item Creating the user system
+        \item CSS 
+        \item Needs to be a way to send out emails
+        \item Need a DatabaseGateway
+        \item Set up the database
+        \item Config file for email server (SMTP server) database connection string
+        \item Framework for every page 
+        \item All the pages (add, update, delete)
+        \begin{itemize}
+            \item Points (add, update, delete)
+            \item Teams (add, update, delete) -
+            \begin{itemize}
+                \item Upload a logo
+                \item Team name
+                \item Team color
+            \end{itemize}
+            \begin{itemize}
+                \item Events
+                \item Event names
+                \item Description
+                \item Date
+                \item Points
+            \end{itemize}
+        \end{itemize}
+        \item Email subscription system
+        \item Main Page
+    \end{itemize}
+
+% add other chapters and sections to suit
+\end{document}
