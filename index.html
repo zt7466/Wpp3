@@ -17,7 +17,44 @@
       <div class="nav-wrapper container">
         <a id="logo-container" href="#" class="brand-logo">Scoreboard</a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="#">Login</a></li>
+		  
+		  <!--Raistlin Hess-->
+		   <!--
+			  Function that is called when the "Login" button is clicked.
+			  This hides the button, then displays a form for logging in.
+		   -->
+           <script type="text/javascript">
+			function display(clicked)
+			{
+			  if(clicked == 1)
+			  {
+			    //Hide "Login" text, show a form
+			    document.getElementById("showLogin").style.display="none";
+		        document.getElementById("username").style.display="block";
+				document.getElementById("password").style.display="block";
+				document.getElementById("loginButton").style.display="block";
+			  }
+			}
+		  </script>
+		  
+		  <!--The Login Form-->
+		  <form id="loginForm" action="validateGateway.php" method="post">
+			<input type="text" id="username" placeholder="Username"></input>
+			<input type="text" id="password" placeholder="Password"></input>
+			<a href="javascript:display(1);" id="showLogin">Login</a>
+			<input type="submit" id="loginButton" value="Submit">
+			<!--<input type="button" class="card" id="loginButton" onclick="display(1)" value="Login"></input>-->
+		  </form>
+		  
+		  <!--Hide form when page loads-->
+		  <script type="text/javascript">
+		    document.getElementById("username").style.display="none";
+			document.getElementById("password").style.display="none"
+			document.getElementById("loginButton").style.display="none";
+		  </script>
+		  
+		  <!--End Raistlin Hess-->
+		  
         </ul>
         <ul class="right hide-on-med-and-down">
           <li><a href="#">Teams</a></li>
