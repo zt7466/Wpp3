@@ -31,21 +31,24 @@ require_once 'config.php';
 
       /**
        * inserts an event into the Events table
-       *
+       *        *
        * @param  $name
        * @param  $date
        * @param  $description
+       * @return true if executed; false otherwise
        */
       public static function insert($name, $date, $description)
       {
         $statement = null;
+        $successful = false;
+
         try
         {
           $statement = EventsGateway::getConnection()->prepare("INSERT INTO webprog27.Events (Name, Date, Description) VALUES (:name, :date, :description)");
           $statement->bindParam(':name', $name);
           $statement->bindParam(':date', $date);
           $statement->bindParam(':description', $description);
-          $statement->execute();
+          $successful = $statement->execute();
         }
         catch (PDOException $e)
         {
@@ -53,6 +56,7 @@ require_once 'config.php';
         }
 
         $statement->closeCursor();
+        return $successful;
       }
 
       /**
