@@ -60,17 +60,16 @@ require_once 'config.php';
        *
        * @param  $name
        */
-      public static function findEvents($name)
+      public static function getEventsByName($name)
       {
         $statement = null;
         $result = null;
         $searchName = "%" . $name . "%";
-        echo $searchName;
+
         try
         {
           $statement = EventsGateway::getConnection()->prepare("SELECT * FROM webprog27.Events WHERE Name LIKE :name");
           $statement->bindParam(':name', $searchName);
-          print_r($statement);
           $statement->execute();
           $result = $statement->fetchAll();
         }
@@ -84,8 +83,32 @@ require_once 'config.php';
       }
 
       /**
+       * @return all events
+       */
+      public static function getAllEvents()
+      {
+        $statement = null;
+        $allEvents = null;
+
+        try
+        {
+          $statement = EventsGateway::getConnection()->prepare("Select * FROM webprog27.Events");
+          $statement->execute();
+          $allEvents = $statement->fetchAll();
+        }
+        catch(PDOException $e)
+        {
+          echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        }
+
+        print_r($allEvents);
+        $statement->closeCursor();
+        return $allEvents;
+      }
+
+      /**
        * updates an event
-       * 
+       *
        * @param  $id
        * @param  $name
        * @param  $date
@@ -112,13 +135,40 @@ require_once 'config.php';
         $statement->closeCursor();
         return $successful;
       }
+
+      /**
+       * deletes event by its id
+       * @param  $id
+       * @return true if executed; false otherwise
+       */
+      public static function removeEvent($id)
+      {
+        $statement = null;
+        $successful = false;
+
+        try
+        {
+          $statement = EventsGateway::getConnection()->prepare("DELETE FROM Events WHERE ID=:id");
+          $statement->bindParam(':id', $id);
+          $successful = $statement->execute();
+        }
+        catch (PDOException $e)
+        {
+          echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        }
+
+        $statement->closeCursor();
+        return $successful;
+      }
     }
 
 
     // EventsGateway::insert('hello', '2016-08-30', 'all webprog students need to meet at FSC165');
     // EventsGateway::insert('webprog meeting', '2016-08-30', 'all webprog students need to meet at FSC165');
     // EventsGateway::findEvents('web');
-    EventsGateway::updateEvent(16, 'exam final', '2200-08-07', 'we never passed LSA');
+    // EventsGateway::updateEvent(16, 'exam final', '2200-08-07', 'we never passed LSA');
+    // EventsGateway::getAllEvents();
+    EventsGateway::removeEvent(15);
 
 
 
