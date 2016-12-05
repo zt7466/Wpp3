@@ -33,12 +33,13 @@ date_default_timezone_set("UTC");
     public static function insert($username, $password)
     {
       $statement = null;
+      $successful = false;
       try
       {
         $statement = UsersGateway::getConnection()->prepare("INSERT INTO webprog27.Users (Username, Password) VALUES (:username, :password)");
         $statement->bindParam(':username', $username);
         $statement->bindParam(':password', $password);
-        $statement->execute();
+        $successful = $statement->execute();
       }
       catch (PDOException $e)
       {
@@ -46,6 +47,7 @@ date_default_timezone_set("UTC");
       }
 
       $statement->closeCursor();
+      return $successful;
     }
 
     /**

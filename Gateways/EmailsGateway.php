@@ -20,6 +20,7 @@ require_once 'config.php';
 			{
 				try {
 					EmailsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
+					EmailsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				} catch (PDOException $e) {
 					echo 'Connection failed: ' . $e->getMessage() . '<br/>';
 				}
@@ -29,17 +30,60 @@ require_once 'config.php';
 		}
 
 		/**
-		 * inserts a row into the Emails table
+		 * inserts an email into the Emails table
 		 * @param  $email
+		 * @param  $verificationID
+		 * @param  $unsubscribeID
+		 * @return true if executed; false otherwise
 		 */
-		public static function insert($email)
+		public static function insert($email, $verificationID, $unsubscribeID)
 		{
-			$statement = EmailsGateway::getConnection()->prepare("INSERT INTO webprog27.Emails (Email) VALUES (:email)");
-			$statement->bindParam(':email', $email);
-			$statement->execute();
-			$statement->close();
+			$statement = null;
+			$successful = false;
+
+			try
+			{
+				$statement = EmailsGateway::getConnection()->prepare("INSERT INTO webprog27.Emails (Email, VerificationID, UnsubscribeID) VALUES (:email, :verificationID, :unsubscribeID)");
+				$statement->bindParam(':email', $email);
+				$statement->bindParam(':verificationID', $verificationID);
+				$statement->bindParam(':unsubscribeID', $unsubscribeID);
+				$successful = $statement->execute();
+			}
+			catch (PDOException $e)
+      {
+        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+      }
+
+			$statement->closeCursor();
+			return $successful;
 		}
+
+		/**
+		 * TODO: ASK JOSS ABOUT
+		 */
+	// 	public static function update($verified)
+	// 	{
+	// 		$statement = null;
+	// 		$successful = false;
+	//
+	// 		try
+	// 		{
+	//
+	// 		}
+	// 		catch (PDOException $e)
+  //     {
+  //       echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+  //     }
+	//
+	// 		$statement->closeCursor();
+	// 		return $successful;
+	// 	}
 	}
 
-	EmailsGateway::insert('hello@aol.com');
+	if(EmailsGateway::insert('dr5801@ship.edu', '2987398hfajkhsdf', '2135asdf45454'))
+	{
+		echo 'execution successful';
+	}
+
+
 ?>
