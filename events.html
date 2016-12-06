@@ -1,9 +1,113 @@
 <!DOCTYPE html>
-<html>
-	<head>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name = "viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 	<title>Events Page</title>
-	</head>
-	<body>
+	<!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="assets/lib/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <!--<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
+</head>
+<body>
+	<div class="navbar-fixed">
+    <nav class="light-blue" style="box-shadow: 0 0 0 0;">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="index.html" class="brand-logo">Events</a>
+        <ul class="right hide-on-med-and-down">
 
-	</body>
+		  <!--Raistlin Hess-->
+		   <!--
+			  Function that is called when the "Login" button is clicked.
+			  This hides the button, then displays a form for logging in.
+		   -->
+           <script type="text/javascript">
+			function display(clicked)
+			{
+			  if(clicked == 1)
+			  {
+			    //Hide "Login" text, show a form
+			    document.getElementById("showLogin").style.display="none";
+		        document.getElementById("username").style.display="block";
+				document.getElementById("password").style.display="block";
+				document.getElementById("loginButton").style.display="block";
+			  }
+			}
+		  </script>
+
+		  <!--The Login Form-->
+		  <form id="loginForm" action="validateGateway.php" method="post">
+			<input type="text" id="username" placeholder="Username"></input>
+			<input type="text" id="password" placeholder="Password"></input>
+			<a href="javascript:display(1);" id="showLogin">Login</a>
+			<input type="submit" id="loginButton" value="Submit">
+			<!--<input type="button" class="card" id="loginButton" onclick="display(1)" value="Login"></input>-->
+		  </form>
+
+		  <!--Hide form when page loads-->
+		  <script type="text/javascript">
+		    document.getElementById("username").style.display="none";
+			document.getElementById("password").style.display="none"
+			document.getElementById("loginButton").style.display="none";
+		  </script>
+
+		  <!--End Raistlin Hess-->
+
+        </ul>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="index.html">Home</a></li>
+        </ul>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#">Subscribe to Email</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+          <li><a href="#">Navbar Link</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      </div>
+    </nav>
+  </div>
+
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">Money can be exchanged for goods and services.</p>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      &copy; 2016 Team 3
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <!--<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+  <script src="assets/lib/jquery/jquery-2.1.1.min.js"></script>
+  <script src="assets/lib/materialize/js/materialize.js"></script>
+  <!--<script src="js/init.js"></script>-->
+</body>
 </html>
