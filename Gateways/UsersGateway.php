@@ -60,6 +60,7 @@ date_default_timezone_set("UTC");
     public static function loginUpdate($time, $token, $username)
     {
       $statement = null;
+      $successful = false;
       try
       {
         $statement = UsersGateway::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastlogin, Token=:token, TokenValidity=:tokenvalidity WHERE Username=:username");
@@ -67,7 +68,7 @@ date_default_timezone_set("UTC");
         $statement->bindParam(':token', $token);
         $statement->bindParam(':tokenvalidity', $time);
         $statement->bindParam(':username', $username);
-        $statement->execute();
+        $successful = $statement->execute();
       }
       catch(PDOException $e)
       {
@@ -75,6 +76,7 @@ date_default_timezone_set("UTC");
       }
 
       $statement->closeCursor();
+      return $successful;
     }
 
     /**
@@ -98,7 +100,7 @@ date_default_timezone_set("UTC");
       {
         echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
-      print_r($result);
+      // print_r($result);
       $statement->closeCursor();
       return $result;
     }
@@ -112,12 +114,13 @@ date_default_timezone_set("UTC");
     public static function updatePassword($username, $newPassword)
     {
       $statement = null;
+      $successful = false;
       try
       {
         $statement = UsersGateway::getconnection()->prepare("UPDATE webprog27.Users set Password=:newPassword WHERE Username=:username");
         $statement->bindParam(':newPassword', $newPassword);
         $statement->bindParam(':username', $username);
-        $statement->execute();
+        $successful = $statement->execute();
       }
       catch (PDOException $e)
       {
@@ -125,8 +128,15 @@ date_default_timezone_set("UTC");
       }
 
       $statement->closeCursor();
+      return $successful;
     }
 
+    /**
+     * updates the last login of the user
+     *
+     * @param  $username
+     * @return true if the code executed succesfully; false otherwise and will print exception
+     */
     public static function updateLastLogin($username)
     {
       $statement = null;
@@ -147,10 +157,4 @@ date_default_timezone_set("UTC");
       return $successful;
     }
   }
-
-  // UsersGateway::insert('drew', 'hello');
-  // UsersGateway::loginUpdate(date("Y-m-d h:i:s"), '2132154jhkhkjhl456', 'drew');
-  // UsersGateway::findUser('drew');
-  // UsersGateway::updatePassword('drew', 'zachIsStupid96');
-  // UsersGateway::updateLastLogin('drew');
 ?>
