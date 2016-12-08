@@ -17,6 +17,7 @@ date_default_timezone_set("UTC");
         try {
           UsersGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
           UsersGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          UsersGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
           echo 'Connection failed: ' . $e->getMessage() . '<br/>';
         }
@@ -43,7 +44,8 @@ date_default_timezone_set("UTC");
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $statement = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -57,24 +59,27 @@ date_default_timezone_set("UTC");
      * @param  $token
      * @param  $username
      */
-    public static function loginUpdate($time, $token, $username)
+    public static function loginUpdate($token, $username)
     {
       $statement = null;
+      $successful = false;
       try
       {
         $statement = UsersGateway::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastlogin, Token=:token, TokenValidity=:tokenvalidity WHERE Username=:username");
-        $statement->bindParam(':lastlogin', $time);
+        $statement->bindParam(':lastlogin', date("Y-m-d H:i:s"));
         $statement->bindParam(':token', $token);
-        $statement->bindParam(':tokenvalidity', $time);
+        $statement->bindParam(':tokenvalidity', date("Y-m-d H:i:s"));
         $statement->bindParam(':username', $username);
-        $statement->execute();
+        $successful = $statement->execute();
       }
       catch(PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $statement = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
+      return $successful;
     }
 
     /**
@@ -96,9 +101,10 @@ date_default_timezone_set("UTC");
       }
       catch(PDOException $e)
       {
-        echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
-      print_r($result);
+      // print_r($result);
       $statement->closeCursor();
       return $result;
     }
@@ -112,21 +118,30 @@ date_default_timezone_set("UTC");
     public static function updatePassword($username, $newPassword)
     {
       $statement = null;
+      $successful = false;
       try
       {
         $statement = UsersGateway::getconnection()->prepare("UPDATE webprog27.Users set Password=:newPassword WHERE Username=:username");
         $statement->bindParam(':newPassword', $newPassword);
         $statement->bindParam(':username', $username);
-        $statement->execute();
+        $successful = $statement->execute();
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        $statement = false;
+        // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
+      return $successful;
     }
 
+    /**
+     * updates the last login of the user
+     *
+     * @param  $username
+     * @return true if the code executed succesfully; false otherwise and will print exception
+     */
     public static function updateLastLogin($username)
     {
       $statement = null;
@@ -140,17 +155,12 @@ date_default_timezone_set("UTC");
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
       return $successful;
     }
   }
-
-  // UsersGateway::insert('drew', 'hello');
-  // UsersGateway::loginUpdate(date("Y-m-d h:i:s"), '2132154jhkhkjhl456', 'drew');
-  // UsersGateway::findUser('drew');
-  // UsersGateway::updatePassword('drew', 'zachIsStupid96');
-  // UsersGateway::updateLastLogin('drew');
 ?>

@@ -21,6 +21,7 @@ require_once 'config.php';
           try {
             EventsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
             EventsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            EventsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
           } catch (PDOException $e) {
             echo 'Connection failed: ' . $e->getMessage() . '<br/>';
           }
@@ -52,7 +53,8 @@ require_once 'config.php';
         }
         catch (PDOException $e)
         {
-          echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+          $successful = false;
+          // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
         }
 
         $statement->closeCursor();
@@ -79,9 +81,10 @@ require_once 'config.php';
         }
         catch(PDOException $e)
         {
-          echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+          $successful = false;
+          // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
         }
-        print_r($result);
+
         $statement->closeCursor();
         return $result;
       }
@@ -102,10 +105,10 @@ require_once 'config.php';
         }
         catch(PDOException $e)
         {
-          echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+          $successful = false;
+          // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
         }
 
-        print_r($allEvents);
         $statement->closeCursor();
         return $allEvents;
       }
@@ -133,7 +136,8 @@ require_once 'config.php';
         }
         catch (PDOException $e)
         {
-          echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+          $successful = false;
+          // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
         }
 
         $statement->closeCursor();
@@ -158,29 +162,12 @@ require_once 'config.php';
         }
         catch (PDOException $e)
         {
-          echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+          $successful = false;
+          // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
         }
 
         $statement->closeCursor();
         return $successful;
       }
     }
-
-
-    // EventsGateway::insert('hello', '2016-08-30', 'all webprog students need to meet at FSC165');
-    // EventsGateway::insert('webprog meeting', '2016-08-30', 'all webprog students need to meet at FSC165');
-    // EventsGateway::findEvents('web');
-    // EventsGateway::updateEvent(16, 'exam final', '2200-08-07', 'we never passed LSA');
-    // EventsGateway::getAllEvents();
-    EventsGateway::removeEvent(15);
-
-
-
-
-
-
-
-
-
-
 ?>

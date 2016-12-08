@@ -20,6 +20,8 @@ require_once 'config.php';
       {
         try {
           TeamsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
+          TeamsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          TeamsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
           echo 'Connection failed: ' . $e->getMessage() . '<br/>';
         }
@@ -51,7 +53,8 @@ require_once 'config.php';
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -76,7 +79,8 @@ require_once 'config.php';
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -107,7 +111,8 @@ require_once 'config.php';
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -127,23 +132,12 @@ require_once 'config.php';
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
       return $successful;
     }
   }
-
-  // TeamsGateway::insert('Off By One', '/logos/offbyone.jpg', 'blue');
-  // TeamsGateway::getAllTeams();
-  // if(TeamsGateway::updateName(1, 'Null Pointer', '/logo/nullpointer.jpg', 'blue'))
-  // {
-  //   echo 'YESSSSSSSSSSSSSSSSSSSS';
-  // }
-    if(TeamsGateway::deleteTeam(1))
-    {
-      echo 'YESSSSSSSSSSSSSSSSSSSSS';
-    }
-
 ?>
