@@ -53,7 +53,8 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -81,7 +82,8 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -106,7 +108,8 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -132,7 +135,8 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -158,7 +162,8 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -181,31 +186,12 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
       return $allPoints;
 		}
 	}
-
-	// if(PointsGateway::insert(123456, 2, 2))
-	// {
-	// 	echo 'execution successful';
-	// }
-
-	// if(PointsGateway::update(1, 201132155))
-	// {
-	// 	echo 'execution successful';
-	// }
-
-	// if(PointsGateway::remove(1))
-	// {
-	// 	echo 'execution successfully';
-	// }
-
-	// PointsGateway::retrieveByTeamID(2);
-	// PointsGateway::retrieveByEventID(2);
-	// PointsGateway::retrieveAllPoints();
-
 ?>

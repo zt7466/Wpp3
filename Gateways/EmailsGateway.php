@@ -52,7 +52,8 @@ require_once 'config.php';
 			}
 			catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
 			$statement->closeCursor();

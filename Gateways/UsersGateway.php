@@ -44,7 +44,8 @@ date_default_timezone_set("UTC");
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $statement = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -73,7 +74,8 @@ date_default_timezone_set("UTC");
       }
       catch(PDOException $e)
       {
-        echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        $statement = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -99,7 +101,8 @@ date_default_timezone_set("UTC");
       }
       catch(PDOException $e)
       {
-        echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
       // print_r($result);
       $statement->closeCursor();
@@ -125,7 +128,8 @@ date_default_timezone_set("UTC");
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        $statement = false;
+        // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
@@ -151,13 +155,12 @@ date_default_timezone_set("UTC");
       }
       catch (PDOException $e)
       {
-        echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
+        $successful = false;
+        // echo "\n\n\nError: " . $e->getMessage() . "\n\n\n";
       }
 
       $statement->closeCursor();
       return $successful;
     }
   }
-
-  UsersGateway::loginUpdate('LOOOOOOOL', 'drew');
 ?>
