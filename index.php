@@ -1,10 +1,24 @@
+<?php
+	/*---------------------*
+	 * Raistlin Hess       *
+	 *---------------------*/
+	 
+	//Require the navbar file to run
+	require_once 'navbar.php';
+	session_start();
+	//$gateway = new UsersGateway;
+	//$result = $gateway->insert("raistlin","password");
+	
+	/*---------------------*
+	 * End Raistlin Hess   *
+	 *---------------------*/
+?> 
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Scoreboard</title>
+  <title>Team Homepage</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,60 +28,7 @@
 <body>
   <div class="navbar-fixed">
     <nav class="light-blue" style="box-shadow: 0 0 0 0;">
-      <div class="nav-wrapper container">
-        <a id="logo-container" href="#" class="brand-logo">Scoreboard</a>
-        <ul class="right hide-on-med-and-down">
-		  
-		  <!--Raistlin Hess-->
-		   <!--
-			  Function that is called when the "Login" button is clicked.
-			  This hides the button, then displays a form for logging in.
-		   -->
-           <script type="text/javascript">
-			function display(clicked)
-			{
-			  if(clicked == 1)
-			  {
-			    //Hide "Login" text, show a form
-			    document.getElementById("showLogin").style.display="none";
-		        document.getElementById("username").style.display="block";
-				document.getElementById("password").style.display="block";
-				document.getElementById("loginButton").style.display="block";
-			  }
-			}
-		  </script>
-		  
-		  <!--The Login Form-->
-		  <form id="loginForm" action="validateGateway.php" method="post">
-			<input type="text" id="username" placeholder="Username"></input>
-			<input type="text" id="password" placeholder="Password"></input>
-			<a href="javascript:display(1);" id="showLogin">Login</a>
-			<input type="submit" id="loginButton" value="Submit">
-			<!--<input type="button" class="card" id="loginButton" onclick="display(1)" value="Login"></input>-->
-		  </form>
-		  
-		  <!--Hide form when page loads-->
-		  <script type="text/javascript">
-		    document.getElementById("username").style.display="none";
-			document.getElementById("password").style.display="none"
-			document.getElementById("loginButton").style.display="none";
-		  </script>
-		  
-		  <!--End Raistlin Hess-->
-		  
-        </ul>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#">Teams</a></li>
-        </ul>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#">Subscribe to Email</a></li>
-        </ul>
-
-        <ul id="nav-mobile" class="side-nav">
-          <li><a href="#">Navbar Link</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-      </div>
+      <?php displayNavbar() ?>
     </nav>
   </div>
   <div class="section no-pad-bot light-blue" id="index-banner">
