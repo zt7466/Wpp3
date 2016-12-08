@@ -21,6 +21,7 @@ require_once 'config.php';
           try {
             EventsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
             EventsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            EventsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
           } catch (PDOException $e) {
             echo 'Connection failed: ' . $e->getMessage() . '<br/>';
           }
@@ -81,7 +82,7 @@ require_once 'config.php';
         {
           echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
         }
-        print_r($result);
+        
         $statement->closeCursor();
         return $result;
       }

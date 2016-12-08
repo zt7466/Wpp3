@@ -17,6 +17,7 @@ date_default_timezone_set("UTC");
         try {
           UsersGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
           UsersGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          UsersGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
           echo 'Connection failed: ' . $e->getMessage() . '<br/>';
         }
@@ -57,16 +58,16 @@ date_default_timezone_set("UTC");
      * @param  $token
      * @param  $username
      */
-    public static function loginUpdate($time, $token, $username)
+    public static function loginUpdate($token, $username)
     {
       $statement = null;
       $successful = false;
       try
       {
         $statement = UsersGateway::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastlogin, Token=:token, TokenValidity=:tokenvalidity WHERE Username=:username");
-        $statement->bindParam(':lastlogin', $time);
+        $statement->bindParam(':lastlogin', date("Y-m-d H:i:s"));
         $statement->bindParam(':token', $token);
-        $statement->bindParam(':tokenvalidity', $time);
+        $statement->bindParam(':tokenvalidity', date("Y-m-d H:i:s"));
         $statement->bindParam(':username', $username);
         $successful = $statement->execute();
       }
@@ -157,4 +158,6 @@ date_default_timezone_set("UTC");
       return $successful;
     }
   }
+
+  UsersGateway::loginUpdate('LOOOOOOOL', 'drew');
 ?>

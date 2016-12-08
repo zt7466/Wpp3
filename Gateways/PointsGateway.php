@@ -21,6 +21,7 @@ require_once 'config.php';
 				try {
 					PointsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
 					PointsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					PointsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 				} catch (PDOException $e) {
 					echo 'Connection failed: ' . $e->getMessage() . '<br/>';
 				}

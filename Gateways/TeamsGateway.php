@@ -20,6 +20,8 @@ require_once 'config.php';
       {
         try {
           TeamsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
+          TeamsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          TeamsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
           echo 'Connection failed: ' . $e->getMessage() . '<br/>';
         }
@@ -135,15 +137,21 @@ require_once 'config.php';
     }
   }
 
+  if(TeamsGateway::insert("Null Pointer", "~/public_html/Wpp3/assets/images/Nullpointer.png", "red"))
+    echo 'added null pointer <br/> <br/>';
+  if(TeamsGateway::insert("Off By One", "~/public_html/Wpp3/assets/images/OffByOne.png", "blue"))
+    echo 'added Off By One <br/> <br/>';
+  if(TeamsGateway::insert("Out Of Bounds", "~/public_html/Wpp3/assets/images/OutOfBounds.png", "green"))
+    echo 'added Out Of Bounds <br/> <br/>';
   // TeamsGateway::insert('Off By One', '/logos/offbyone.jpg', 'blue');
   // TeamsGateway::getAllTeams();
   // if(TeamsGateway::updateName(1, 'Null Pointer', '/logo/nullpointer.jpg', 'blue'))
   // {
   //   echo 'YESSSSSSSSSSSSSSSSSSSS';
   // }
-    if(TeamsGateway::deleteTeam(1))
-    {
-      echo 'YESSSSSSSSSSSSSSSSSSSSS';
-    }
+    // if(TeamsGateway::deleteTeam(1))
+    // {
+    //   echo 'YESSSSSSSSSSSSSSSSSSSSS';
+    // }
 
 ?>

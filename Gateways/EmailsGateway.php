@@ -21,6 +21,7 @@ require_once 'config.php';
 				try {
 					EmailsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
 					EmailsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					EmailsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 				} catch (PDOException $e) {
 					echo 'Connection failed: ' . $e->getMessage() . '<br/>';
 				}
