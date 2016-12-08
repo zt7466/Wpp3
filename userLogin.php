@@ -5,6 +5,7 @@
 	require_once 'Gateways/Salt_n_Pepper.php';
 	require_once 'navbar.php';
 	
+	echo "<head><link rel='site icon' href='favicon.ico' type='image/x-icon'/></head>";
 	//Format the site using the CSS styling
 	echo <<< END
 	<html lang="en">

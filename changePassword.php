@@ -5,6 +5,7 @@
 	require_once 'Gateways/Salt_n_Pepper.php';
 	require_once 'navbar.php';
 	session_start();
+	echo "<head><link rel='site icon' href='favicon.ico' type='image/x-icon'/></head>";
 	
 	//When there is no post data for 'password', show form requesting one
 	if(strlen($_POST['password']) <= 0)

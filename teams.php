@@ -11,6 +11,7 @@
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="assets/lib/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel='site icon' href='favicon.ico' type='image/x-icon'/>
   <!--<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
 </head>
 <body>
