@@ -14,8 +14,15 @@
 	 *---------------------*/
 ?> 
 
+<!--
+@author Joss Steward, Brad Olah, Raistlin Hess
+-->
 <html lang="en">
 <head>
+<script src="assets/lib/jquery/jquery-2.1.1.min.js"></script>
+  <script>
+    $( document ).ready(function(){$(".button-collapse").sideNav();});
+  </script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>Team Homepage</title>
@@ -26,27 +33,21 @@
   <!--<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
 </head>
 <body>
-  <div class="navbar-fixed">
-    <nav class="light-blue" style="box-shadow: 0 0 0 0;">
-      <?php displayNavbar() ?>
-    </nav>
-  </div>
+
+  <?php displayNavbar() ?>
+
   <div class="section no-pad-bot light-blue" id="index-banner">
     <div class="container">
       <br><br>
-
       <div class="row">
         <div class="col s12 l4">
-          <div class="card">
+          <div class="card large">
+            <div class="card-image">
+              <canvas id="Crew1" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
+            </div>
             <div class="card-content">
               <span class="card-title">Null Pointer</span>
-              <h1>1337</h1>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <h1 id="Crew1Score">[Score]</h1>
             </div>
             <div class="card-action">
               <a href="#">View team page</a>
@@ -54,15 +55,14 @@
           </div>
         </div>
         <div class="col s12 l4">
-          <div class="card">
+          <div class="card large">
+            <div class="card-image">
+              <canvas id="Crew2" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
+            </div>
             <div class="card-content">
-              <span class="card-title">Off by Something</span>
-              <h1>154</h1>
-              <p>TODO: Tweak card layout so it actually looks good</p>
-              <p>TODO: Lock all cards to same height</p>
-              <p>TODO: Decide on style for event cards</p>              
-              <p>TODO: Decide on page layout: 2 columns or 1 or something more exotic</p>              
-              <p>TODO: Make favicon</p>
+              <span class="card-title">Off by One</span>
+              <h1 id="Crew2SCore">[Score]</h1>
+
             </div>
             <div class="card-action">
               <a href="#">View team page</a>
@@ -70,16 +70,13 @@
           </div>
         </div>
         <div class="col s12 l4">
-          <div class="card">
+          <div class="card large">
+            <div class="card-image">
+              <canvas id="Crew3" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
+            </div>
             <div class="card-content">
-              <span class="card-title">The other one</span>
-              <h1>Like 1</h1>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <span class="card-title">Out of Bounds</span>
+              <h1 id="Crew3Score">[Score]</h1>
             </div>
             <div class="card-action">
               <a href="#">View team page</a>
@@ -362,4 +359,86 @@
   <!--<script src="js/init.js"></script>-->
 
   </body>
+  
+  <!--the animdations for the circles-->
+  <script>
+      function CircleAnimation( opt )
+      {
+          var context = opt.canvas.getContext("2d");
+          var handle = 0;
+          var current = 0;
+          var percent = 0;
+
+          this.start = function( percentage )
+          {
+              percent = percentage;
+              // start the interval
+              handle = setInterval( draw, opt.interval );
+          }
+
+          // fill the background color
+          context.fillStyle = "rgba(0, 0, 0, 0)";
+          context.fillRect( 0, 0, opt.width, opt.height );
+
+          // draw a circle
+          context.arc( opt.width / 2, opt.height / 2, opt.radius, 0, 2 * Math.PI, false );
+          context.lineWidth = opt.linewidth;
+          context.strokeStyle = opt.circlecolor;
+          context.stroke();
+
+          function draw()
+          {
+              // make a circular clipping region
+              context.beginPath();
+              context.arc( opt.width / 2, opt.height / 2, opt.radius-(opt.linewidth/2.3), 0, 2 * Math.PI, false );
+              context.clip();
+
+              // draw the current rectangle
+              var height = ((100-current)*opt.radius*2)/100 + (opt.height-(opt.radius*2))/2;
+              context.fillStyle = opt.fillcolor;
+              context.fillRect( 0, height, opt.width, opt.radius*2 );
+
+              // clear the interval when the animation is over
+              if ( current < percent ) current+=opt.step;
+              else clearInterval(handle);
+          }
+      }
+      // create the new object, add options, and start the animation with desired percentage
+      var canvas = document.getElementById("Crew1");
+      new CircleAnimation({
+          'canvas': canvas,
+          'width': canvas.width,
+          'height': canvas.height,
+          'radius': 100,
+          'linewidth': 10,
+          'interval': 20,
+          'step': 1,
+          'circlecolor': '#808080',
+          'fillcolor': '#0000CD'  //Need proper color for crew
+      }).start( 70 ); //This is where the sizes of the drawn color is modified.
+      var canvas = document.getElementById("Crew2");
+          new CircleAnimation({
+              'canvas': canvas,
+              'width': canvas.width,
+              'height': canvas.height,
+              'radius': 100,
+              'linewidth': 10,
+              'interval': 20,
+              'step': 1,
+              'circlecolor': '#808080',
+              'fillcolor': '#7CFC00'  //Need proper color for crew
+          }).start( 30 ); //This is where the sizes of the drawn color is modified.
+      var canvas = document.getElementById("Crew3");
+          new CircleAnimation({
+              'canvas': canvas,
+              'width': canvas.width,
+              'height': canvas.height,
+              'radius': 100,
+              'linewidth': 10,
+              'interval': 20,
+              'step': 1,
+              'circlecolor': '#808080',
+              'fillcolor': '#FF0000' //Need proper color for crew
+          }).start( 50 ); //This is where the sizes of the drawn color is modified.
+  </script>
 </html>

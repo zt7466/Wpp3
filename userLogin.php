@@ -58,7 +58,8 @@ END;
 		//change their password
 		$gateway = new UsersGateway;
 		$result = $gateway->findUser($username);
-		if($result != null && $result[0][3] == null)
+		$sessRes = $gateway->findUser($_SESSION['username']);
+		if(($result != null && $result[0]['LastLogin'] == null) || ($sessRes != null && $sessRes[0]['LastLogin'] == null))
 		{
 			echo <<< END
 			  <span class="card-title">You need to change your password</span>

@@ -37,6 +37,8 @@
 	//Store username and token in php variable, if valid.
 	//This is used for displaying greeting and account info instead
 	//of the login button
+	
+	/*
 	if(strlen($_SESSION['username']) > 0 && strlen($_SESSION['token']) > 0)
 	{
 		//Make sure session token matches the database, otherwise delete
@@ -47,6 +49,7 @@
 			echo '<meta http-equiv="refresh" content="0">';
 		}
 	}
+	*/
 	
 	/*---------------------*
 	 * End Raistlin Hess   *
@@ -60,6 +63,9 @@
 	function displayNavbar()
 	{
 		echo <<< END
+		<div class="navbar-fixed">
+		<nav class="light-blue" style="box-shadow: 0 0 0 0;">
+			<?php displayNavbar(); ?>
 		<div class="nav-wrapper container">
 		<a id="logo-container" href="index.php" class="brand-logo">Scoreboard</a>
 		<ul class="right hide-on-med-and-down">
@@ -114,7 +120,7 @@ END;
 		  /*
 			  If the user does not have a valid session, show login button and form
 		  */
-			if($_SESSION['username'] == null && $_SESSION['token'] == null)
+			if($_SESSION['username'] == null || $_SESSION['token'] == null)
 			{
 			echo <<< END
 			  <!--The Login Form-->
@@ -196,7 +202,7 @@ END;
 		  <!-------------------End Raistlin Hess----------------------------------------------------------->
 		</ul>
 		<ul class="right hide-on-med-and-down">
-		  <li><a href="#">Teams</a></li>
+		  <li><a href="teams.php">Teams</a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
 		  <li><a href="#">Subscribe to Email</a></li>
@@ -207,6 +213,8 @@ END;
 		</ul>
 		<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 		</div>
+		</nav>
+	</div>
 END;
 	}
 	
