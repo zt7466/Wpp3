@@ -45,4 +45,15 @@ require_once ('UsersGateway.php');
     $userData = UsersGateway::findUser($username);
     return (password_verify($password, $userData[0]["Password"])) ? TRUE:FALSE;
   }
+
+  $result = UsersGateway::findUser('test');
+
+  if(!is_null($result) && is_null($result[0]['LastLogin']))
+  {
+    echo "This shouldn't happen";
+  }
+  else
+  {
+    echo "Last Login is not null";
+  }
 ?>

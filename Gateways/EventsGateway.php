@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'ConnectionHandler.php';
 
     /**
      * Drew Rife and Zachary Thompson
@@ -8,28 +8,6 @@ require_once 'config.php';
      */
     class EventsGateway
     {
-      private static $connection = null;
-
-      /**
-  		 * @return the connection to the database
-  		 */
-      private static function getConnection()
-      {
-        global $credentials;
-        if(is_null(EventsGateway::$connection))
-        {
-          try {
-            EventsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
-            EventsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            EventsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-          } catch (PDOException $e) {
-            echo 'Connection failed: ' . $e->getMessage() . '<br/>';
-          }
-        }
-
-        return EventsGateway::$connection;
-      }
-
       /**
        * inserts an event into the Events table
        *        *
@@ -45,7 +23,7 @@ require_once 'config.php';
 
         try
         {
-          $statement = EventsGateway::getConnection()->prepare("INSERT INTO webprog27.Events (Name, Date, Description) VALUES (:name, :date, :description)");
+          $statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Events (Name, Date, Description) VALUES (:name, :date, :description)");
           $statement->bindParam(':name', $name);
           $statement->bindParam(':date', $date);
           $statement->bindParam(':description', $description);
@@ -74,7 +52,7 @@ require_once 'config.php';
 
         try
         {
-          $statement = EventsGateway::getConnection()->prepare("SELECT * FROM webprog27.Events WHERE Name LIKE :name");
+          $statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Events WHERE Name LIKE :name");
           $statement->bindParam(':name', $searchName);
           $statement->execute();
           $result = $statement->fetchAll();
@@ -99,7 +77,7 @@ require_once 'config.php';
 
         try
         {
-          $statement = EventsGateway::getConnection()->prepare("Select * FROM webprog27.Events");
+          $statement = ConnectionHandler::getConnection()->prepare("Select * FROM webprog27.Events");
           $statement->execute();
           $allEvents = $statement->fetchAll();
         }
@@ -127,7 +105,7 @@ require_once 'config.php';
         $successful = false;
         try
         {
-          $statement = EventsGateway::getConnection()->prepare("UPDATE webprog27.Events set Name=:name, Date=:date, Description=:description WHERE ID=:id");
+          $statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Events set Name=:name, Date=:date, Description=:description WHERE ID=:id");
           $statement->bindParam(':name', $name);
           $statement->bindParam(':date', $date);
           $statement->bindParam(':description', $description);
@@ -156,7 +134,7 @@ require_once 'config.php';
 
         try
         {
-          $statement = EventsGateway::getConnection()->prepare("DELETE FROM Events WHERE ID=:id");
+          $statement = ConnectionHandler::getConnection()->prepare("DELETE FROM Events WHERE ID=:id");
           $statement->bindParam(':id', $id);
           $successful = $statement->execute();
         }

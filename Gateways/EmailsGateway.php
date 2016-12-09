@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'ConnectionHandler.php';
 
 	/**
 	 * Drew Rife and Zachary Thompson
@@ -9,26 +9,6 @@ require_once 'config.php';
 	class EmailsGateway
 	{
 		private static $connection = null;
-
-		/**
-		 * @return the connection to the database
-		 */
-		private static function getConnection()
-		{
-			global $credentials;
-			if(is_null(EmailsGateway::$connection))
-			{
-				try {
-					EmailsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
-					EmailsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					EmailsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-				} catch (PDOException $e) {
-					echo 'Connection failed: ' . $e->getMessage() . '<br/>';
-				}
-			}
-
-			return EmailsGateway::$connection;
-		}
 
 		/**
 		 * inserts an email into the Emails table
@@ -44,7 +24,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = EmailsGateway::getConnection()->prepare("INSERT INTO webprog27.Emails (Email, VerificationID, UnsubscribeID) VALUES (:email, :verificationID, :unsubscribeID)");
+				$statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Emails (Email, VerificationID, UnsubscribeID) VALUES (:email, :verificationID, :unsubscribeID)");
 				$statement->bindParam(':email', $email);
 				$statement->bindParam(':verificationID', $verificationID);
 				$statement->bindParam(':unsubscribeID', $unsubscribeID);

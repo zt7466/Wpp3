@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'ConnectionHandler.php';
 
 	/**
 	 * Drew Rife and Zachary Thompson
@@ -8,28 +8,6 @@ require_once 'config.php';
 	 */
 	class PointsGateway
 	{
-		private static $connection = null;
-
-		/**
-		 * @return the connection to the database
-		 */
-		private static function getConnection()
-		{
-			global $credentials;
-			if(is_null(PointsGateway::$connection))
-			{
-				try {
-					PointsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
-					PointsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					PointsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-				} catch (PDOException $e) {
-					echo 'Connection failed: ' . $e->getMessage() . '<br/>';
-				}
-			}
-
-			return PointsGateway::$connection;
-		}
-
 		/**
 		 * inserts points into a table
 		 * @param  $points
@@ -45,7 +23,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = PointsGateway::getConnection()->prepare("INSERT INTO webprog27.Points (Points, EventID, TeamID) VALUES (:points, :eventID, :teamID)");
+				$statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Points (Points, EventID, TeamID) VALUES (:points, :eventID, :teamID)");
 				$statement->bindParam(':points', $convertedPoints);
 				$statement->bindParam(':eventID', $eventID);
 				$statement->bindParam(':teamID', $teamID);
@@ -75,7 +53,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = PointsGateway::getConnection()->prepare("UPDATE webprog27.Points set Points=:points WHERE ID=:id");
+				$statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Points set Points=:points WHERE ID=:id");
 				$statement->bindParam(':points', $convertedPoints);
 				$statement->bindParam(':id', $id);
 				$successful = $statement->execute();
@@ -102,7 +80,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = PointsGateway::getConnection()->prepare("DELETE FROM webprog27.Points WHERE ID=:id");
+				$statement = ConnectionHandler::getConnection()->prepare("DELETE FROM webprog27.Points WHERE ID=:id");
 				$statement->bindParam(':id', $id);
 				$successful = $statement->execute();
 			}
@@ -128,7 +106,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = PointsGateway::getConnection()->prepare("SELECT * FROM webprog27.Points WHERE TeamID=:teamID");
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Points WHERE TeamID=:teamID");
 				$statement->bindParam(':teamID', $teamID);
 				$statement->execute();
 				$resultsByTeam = $statement->fetchAll();
@@ -155,7 +133,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = PointsGateway::getConnection()->prepare("SELECT * FROM webprog27.Points WHERE EventID=:eventID");
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Points WHERE EventID=:eventID");
 				$statement->bindParam(':eventID', $eventID);
 				$statement->execute();
 				$resultsByEvent = $statement->fetchAll();
@@ -180,7 +158,7 @@ require_once 'config.php';
 
 			try
 			{
-				$statement = PointsGateway::getConnection()->prepare("SELECT * FROM webprog27.Points");
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Points");
 				$statement->execute();
 				$allPoints = $statement->fetchAll();
 			}

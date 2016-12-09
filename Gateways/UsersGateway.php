@@ -1,31 +1,9 @@
 <?php
-require_once 'config.php';
+require_once 'ConnectionHandler.php';
 date_default_timezone_set("UTC");
 
   class UsersGateway
   {
-    private static $connection = null;
-
-    /**
-		 * @return the connection to the database
-		 */
-    private static function getConnection()
-    {
-      global $credentials;
-      if(is_null(UsersGateway::$connection))
-      {
-        try {
-          UsersGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
-          UsersGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          UsersGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        } catch (PDOException $e) {
-          echo 'Connection failed: ' . $e->getMessage() . '<br/>';
-        }
-      }
-
-      return UsersGateway::$connection;
-    }
-
     /**
      * inserts the essentials of a user
      * @param  $username
@@ -37,7 +15,7 @@ date_default_timezone_set("UTC");
       $successful = false;
       try
       {
-        $statement = UsersGateway::getConnection()->prepare("INSERT INTO webprog27.Users (Username, Password) VALUES (:username, :password)");
+        $statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Users (Username, Password) VALUES (:username, :password)");
         $statement->bindParam(':username', $username);
         $statement->bindParam(':password', $password);
         $successful = $statement->execute();
@@ -65,7 +43,7 @@ date_default_timezone_set("UTC");
       $successful = false;
       try
       {
-        $statement = UsersGateway::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastlogin, Token=:token, TokenValidity=:tokenvalidity WHERE Username=:username");
+        $statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastlogin, Token=:token, TokenValidity=:tokenvalidity WHERE Username=:username");
         $statement->bindParam(':lastlogin', date("Y-m-d H:i:s"));
         $statement->bindParam(':token', $token);
         $statement->bindParam(':tokenvalidity', date("Y-m-d H:i:s"));
@@ -94,7 +72,7 @@ date_default_timezone_set("UTC");
       $statement = null;
       try
       {
-        $statement = UsersGateway::getConnection()->prepare("SELECT * FROM webprog27.Users WHERE Username=:username");
+        $statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Users WHERE Username=:username");
         $statement->bindParam(':username', $username);
         $statement->execute();
         $result = $statement->fetchAll();
@@ -121,7 +99,7 @@ date_default_timezone_set("UTC");
       $successful = false;
       try
       {
-        $statement = UsersGateway::getconnection()->prepare("UPDATE webprog27.Users set Password=:newPassword WHERE Username=:username");
+        $statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Users set Password=:newPassword WHERE Username=:username");
         $statement->bindParam(':newPassword', $newPassword);
         $statement->bindParam(':username', $username);
         $successful = $statement->execute();
@@ -148,7 +126,7 @@ date_default_timezone_set("UTC");
       $successful = false;
       try
       {
-        $statement = UsersGateway::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastLogin WHERE Username=:username");
+        $statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Users set LastLogin=:lastLogin WHERE Username=:username");
         $statement->bindParam(':lastLogin', date("Y-m-d h:i:s"));
         $statement->bindParam(':username', $username);
         $successful = $statement->execute();

@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'ConnectionHandler.php';
 
   /**
    * Drew Rife and Zachary Thompson
@@ -8,28 +8,6 @@ require_once 'config.php';
    */
   class TeamsGateway
   {
-    private static $connection = null;
-
-    /**
-     * @return the connection to the database
-     */
-    private static function getConnection()
-    {
-      global $credentials;
-      if(is_null(TeamsGateway::$connection))
-      {
-        try {
-          TeamsGateway::$connection = new PDO($credentials['db'], $credentials['username'], $credentials['password']);
-          TeamsGateway::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          TeamsGateway::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        } catch (PDOException $e) {
-          echo 'Connection failed: ' . $e->getMessage() . '<br/>';
-        }
-      }
-
-      return TeamsGateway::$connection;
-    }
-
     /**
      * inserts a team into the teams table
      *
@@ -45,7 +23,7 @@ require_once 'config.php';
 
       try
       {
-        $statement = TeamsGateway::getConnection()->prepare("INSERT INTO webprog27.Teams (Name, Logo, Color) VALUES (:name, :logo, :color)");
+        $statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Teams (Name, Logo, Color) VALUES (:name, :logo, :color)");
         $statement->bindParam(':name', $name);
         $statement->bindParam(':logo', $logo);
         $statement->bindParam(':color', $color);
@@ -72,7 +50,7 @@ require_once 'config.php';
 
       try
       {
-        $statement = TeamsGateway::getConnection()->prepare("SELECT * FROM webprog27.Teams");
+        $statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Teams");
         $statement->execute();
         $allTeams = $statement->fetchAll();
         print_r($allTeams);
@@ -102,7 +80,7 @@ require_once 'config.php';
 
       try
       {
-          $statement = TeamsGateway::getConnection()->prepare("UPDATE webprog27.Teams set Name=:name, Logo=:logo, Color=:color WHERE ID=:id");
+          $statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Teams set Name=:name, Logo=:logo, Color=:color WHERE ID=:id");
           $statement->bindParam(':name', $name);
           $statement->bindParam(':logo', $logo);
           $statement->bindParam(':color', $color);
@@ -119,6 +97,11 @@ require_once 'config.php';
       return $successful;
     }
 
+    /**
+     * deletes a team by id
+     * @param  $id
+     * @return
+     */
     public function deleteTeam($id)
     {
       $statement = null;
@@ -126,7 +109,7 @@ require_once 'config.php';
 
       try
       {
-          $statement = TeamsGateway::getConnection()->prepare("DELETE FROM webprog27.Teams WHERE ID=:id");
+          $statement = ConnectionHandler::getConnection()->prepare("DELETE FROM webprog27.Teams WHERE ID=:id");
           $statement->bindParam(':id', $id);
           $successful = $statement->execute();
       }
