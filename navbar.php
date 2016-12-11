@@ -8,6 +8,13 @@
 	  */
 	  function destroySession()
 	  {
+		  //Remove token and token validity for user, if exists
+		  if(strlen($_SESSION['username']) > 0)
+		  {
+			  $gateway = new UsersGateway;
+			  $result = $gateway->loginUpdate(NULL,$_SESSION['username']);
+		  }
+		  
 		  $_SESSION = array();
 		  setcookie(session_name(), '', time()-2592000);
 		  session_unset();
@@ -30,7 +37,7 @@
 	 *---------------------*/
 	 
 	//Create a session and initialize a UserGateway for account management
-	require_once 'Gateways/UsersGateway.php';
+	require_once 'Gateways/Salt_n_Pepper.php';
 	session_start();
 	$gateway = new UsersGateway;
 	
@@ -183,14 +190,14 @@ END;
 						</td>
 						<td>
 						  <a href="javascript:display(0);" class="btn waves-effect waves-light blue" id="hideLogin">Close</a>
-						  <a href="registerAccount.php" id="registerAcc" style="color:#000000">Account</a>
+						  <a href="settings.php" id="registerAcc" style="color:#000000">Settings</a>
 						</td>
 					  </tr>
 					</table>
 				  </div>
 				</div>
 			  </div>
-			  <input type="hidden" name="logout" value="true"></input
+			  <input type="hidden" name="logout" value="true"></input>
 			  </form>
 END;
 			}

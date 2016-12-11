@@ -2,7 +2,6 @@
 	/*-------------------------------------------------------\
 	|					Raistlin Hess						 |
 	\-------------------------------------------------------*/
-	require_once 'Gateways/Salt_n_Pepper.php';
 	require_once 'navbar.php';
 	
 	echo "<head><link rel='site icon' href='favicon.ico' type='image/x-icon'/></head>";
@@ -52,14 +51,58 @@ END;
 	//Initialize a connection to the Users table
 	$result = checkUser($username, $password);
 	
-	//Check if gateway actually found a user matching the input
+	//Username's password does not match database. Require them to try again
 	if($result == FALSE)
+	{
+		//Show a message that login failed, and provide forms to try again
+		echo <<< END
+		  <span class="card-title">Login failed</span>
+		  <form id="loginForm" action="userLogin.php" method="post">
+		  <div class="col s12">
+			<div class="card white black-text">
+			  <div class="card-content">
+				Login
+				<input type="text" name="username" id="username" size="24" placeholder="Username" value=""></input>
+				<input id="password" name="password" type="password" class="validate" size="24" placeholder="Password" value=""></input>
+				<table>
+				  <tr>
+					<td>
+					  <button id="loginButton" type="submit" class="btn waves-effect waves-light blue" value="Submit">Submit</button>
+					</td>
+					<td>
+					  <a href="index.php" class="btn waves-effect waves-light blue" id="hideLogin">Back</a>
+					</td>
+				  </tr>
+				  <tr>
+					<td>
+					  <a href="forgotPassword.php" id="forgot" style="color:#000000" size="5">Forgot password?</a>
+					</td>
+					<td>
+						<a href="registerAccount.php" id="registerAcc" style="color:#000000">Register</a>
+					</td>
+				  </tr>
+				</table>
+			  </div>
+			</div>
+		  </div>
+		  </form>
+		</div>
+  </div>
+</div>
+</body>
+END;
+	}
+	
+	//Login information matches the database
+	else
 	{
 		//Check if this is the user's first log in. If so, require them to
 		//change their password
 		$gateway = new UsersGateway;
 		$result = $gateway->findUser($username);
 		$sessRes = $gateway->findUser($_SESSION['username']);
+		
+		//This is the first login
 		if(($result != null && $result[0]['LastLogin'] == null) || ($sessRes != null && $sessRes[0]['LastLogin'] == null))
 		{
 			echo <<< END
@@ -78,73 +121,34 @@ END;
 </body>
 END;
 		}
+		
+		//The user has already changed their password
 		else
-		{
-			//Show a message that login failed, and provide forms to try again
+		{		
+			//Finish the rest of the html with a login successful mesage
 			echo <<< END
-			  <span class="card-title">Login failed</span>
-			  <form id="loginForm" action="userLogin.php" method="post">
-			  <div class="col s12">
-				<div class="card white black-text">
-				  <div class="card-content">
-					Login
-					<input type="text" name="username" id="username" size="24" placeholder="Username" value=""></input>
-					<input id="password" name="password" type="password" class="validate" size="24" placeholder="Password" value=""></input>
-					<table>
-					  <tr>
-						<td>
-						  <button id="loginButton" type="submit" class="btn waves-effect waves-light blue" value="Submit">Submit</button>
-						</td>
-						<td>
-						  <a href="index.php" class="btn waves-effect waves-light blue" id="hideLogin">Back</a>
-						</td>
-					  </tr>
-					  <tr>
-						<td>
-						  <a href="forgotPassword.php" id="forgot" style="color:#000000" size="5">Forgot password?</a>
-						</td>
-						<td>
-							<a href="registerAccount.php" id="registerAcc" style="color:#000000">Register</a>
-						</td>
-					  </tr>
-					</table>
-				  </div>
+				  <span class="card-title">Login Successful!</span>
+				  <p> Please wait...
+				  <p> <a href="index.php" class="white-text">Click here if you are not automatically redirected.</a> 
+				  <meta http-equiv="refresh" content="3; url=index.php"/>
 				</div>
-			  </div>
-			  </form>
-			</div>
-	  </div>
-	</div>
-</body>
+		  </div>
+		</div>
+	</body>
 END;
 		}
-	}
-	
-	//Login information matches the database
-	else
-	{
-		//Finish the rest of the html with a login successful mesage
-		echo <<< END
-			  <span class="card-title">Login Successful!</span>
-			  <p> Please wait...
-			  <p> <a href="index.php" class="white-text">Click here if you are not automatically redirected.</a> 
-			  <meta http-equiv="refresh" content="3; url=changePassword.php"/>
-			</div>
-	  </div>
-	</div>
-</body>
-END;
 		
 		//Generate unique hash based on the username,password, and a random value 
 		//between 58 and the current time in milliseconds. This is stored in the Token
 		//field for the user and their cookie.
 		$token = hash('ripemd160', $username+$password+rand(58,round(microtime(true) * 1000)));
-		$gateway->loginUpdate(date("Y-m-d h:i:s"), $token, $username);
+		$gateway->loginUpdate($token, $username);
 		
 		//Store hash and user info in a cookie that lives for 3 hours
 		$_SESSION['username'] = $username;
 		$_SESSION['token'] = $token;
 		ini_set('session.gc_maxlifetime', 60*180);
+		setcookie('username', $username, time()+60*180);
 		setcookie('token', $token, time()+60*180);
 	}
 

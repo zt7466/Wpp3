@@ -2,7 +2,6 @@
 	/*-------------------------------------------------------\
 	|					Raistlin Hess						 |
 	\-------------------------------------------------------*/
-	require_once 'Gateways/Salt_n_Pepper.php';
 	require_once 'navbar.php';
 	session_start();
 	echo "<head><link rel='site icon' href='favicon.ico' type='image/x-icon'/></head>";
