@@ -141,7 +141,7 @@ END;
 					</div>
 					<input type="text" name="username" id="username" size="24" placeholder="Username" value=""></input>
 					<input id="password" name="password" type="password" class="validate" size="24" placeholder="Password" value="" required></input>
-					<table>
+					<table class="none">
 					  <tr>
 						<td>
 						  <button id="loginButton" type="submit" class="btn waves-effect waves-light blue" value="Submit">Submit</button>
