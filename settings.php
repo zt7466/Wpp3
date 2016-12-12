@@ -98,6 +98,24 @@
 			  </div>
 		  </div>
 		  </li>
+		  <li>
+		  <div class="collapsible-header"><i class="material-icons">assignment</i><h4>Change Password</h4></div>
+		  <div class="collapsible-body">
+			  <div class="card blue">
+				<div class="card-content white-text">
+				  <span class="card-title"><b>Change Password</b></span>
+					  <form id="create" action="changePassword.php" method="post">
+						<label for="password" class="card-title white-text">New Password</label>
+						<input type="password" class="grey lighten-4 black-text round" name="password" id="password" size="24" placeholder="New Password" value="" required></input>
+						<label for="confirm" class="card-title white-text">Confirm</label>
+						<input type="password" class="grey lighten-4 black-text round" name="confirm" id="confirm" size="24" placeholder="Confirm" value="" required></input>
+						<button id="createSubmit" type="submit" class="btn orange waves-effect waves" value="Submit">Submit</button>
+						<?php echo '<input type="hidden" name="username" id="username" value='.$_SESSION['username'].'></input>'; ?>
+					  </form>
+				</div>
+			  </div>
+		  </div>
+		  </li>
 		</ul>
 	  </div>
     </div>

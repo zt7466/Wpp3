@@ -58,6 +58,74 @@ END;
 	//Then return to home page
 	else
 	{
+		//Check if user manually changed their password
+		if(strlen($_POST['confirm']) > 0)
+		{
+			if($_POST['confirm'] == $_POST['password'])
+			{
+				//Passwords match, so update the database
+				$result = passwordHasher($_POST['username'],$_POST['password'],'update');
+				
+				//Display confirmation and redirect
+					echo <<< END
+	<html lang="en">
+	<head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	  <title>Change Password</title>
+	  <!-- CSS  -->
+	  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <link href="assets/lib/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	  <!--<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
+	</head>
+	<body>
+		<br><br><br><br><br><br><br>
+		<div class="col s12 l4">
+			<div class="card blue white-text">
+				<div class="card-content">
+				  <span class="card-title">Password changed successfully!</span>
+				  <p> Please wait...
+				  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a> 
+				  <meta http-equiv="refresh" content="3; url=settings.php"/>
+				</div>
+		  </div>
+		</div>
+	</body>
+END;
+				return;
+			}
+			else
+			{
+				//Display confirmation and redirect
+					echo <<< END
+	<html lang="en">
+	<head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	  <title>Change Password</title>
+	  <!-- CSS  -->
+	  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <link href="assets/lib/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	  <!--<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
+	</head>
+	<body>
+		<br><br><br><br><br><br><br>
+		<div class="col s12 l4">
+			<div class="card blue white-text">
+				<div class="card-content">
+				  <span class="card-title">Passwords do not match. Please try again.</span>
+				  <p> Please wait...
+				  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a> 
+				  <meta http-equiv="refresh" content="3; url=settings.php"/>
+				</div>
+		  </div>
+		</div>
+	</body>
+END;
+				return;
+			}
+		}
+		
 		$gateway = new UsersGateway;
 		$result = passwordHasher($_POST['username'],$_POST['password'],'update');
 		$result = $gateway->updateLastLogin($_POST['username']);
