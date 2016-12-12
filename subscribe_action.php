@@ -1,8 +1,16 @@
 <?php
+    require_once 'email/emailHandler.php';
+
+    $verification_message = "You have signed up for notifications from the Crew Scoreboard!\r\n" .
+    "Please follow the following link to verify your email: http://webprog.cs.ship.edu/webprog27/verify_email.php?token=gobbledygook";
+
+    $e = new EmailTools();
+    $result = $e->sendmail($_POST['email'], "Verification Email", $verification_message);
+
 	//Require the navbar file to run
 	require_once 'navbar.php';
 	require_once 'footer.php';
-	session_start();
+	session_start();   
 ?>
 <html lang="en">
     <head>
@@ -17,14 +25,15 @@
     </head>
     <body>
         <?php displayNavbar(); ?>
-        <!--<body>-->
-        <div class="input-field col s12">
-            <form action="subscribe.php" method="post">
-                <input placeholder="Your Email" id="email" type="text" class="validate">
-                <label for="first_name">First Name</label>
-            </form>
+        <div class="container">
+            <div class="col s12">
+                <?php if($result) { ?>
+                <h1>A verification email has been sent to <?php echo $_POST['email']; ?></h1>
+                <?php } else { ?>
+                <h1>A verification email could not be sent to <?php echo $_POST['email']; ?></h1>
+                <?php } ?>
+            </div>
         </div>
-        <!--</body>-->
 
         <?php displayFooter(); ?>
 
