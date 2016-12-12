@@ -5,12 +5,49 @@
 	require_once 'navbar.php';
 	session_start();
 	echo "<head><link rel='site icon' href='favicon.ico' type='image/x-icon'/></head>";
-	
+
 	//When there is no post data for 'password', show form requesting one
 	if(strlen($_POST['password']) <= 0)
 	{
 		//Format the site using the CSS styling
 		echo <<< END
+
+		/**
+		 * @author Drew Rife
+		 *
+		 * Checks to see if the passwords match when changing the password 
+		 */
+		<script type="text/javascript">
+		function checkPasswordsMatch()
+		{
+			var password = document.getElementById("password").value;
+			var confirmed_password = document.getElementById("confirmed_password").value;
+
+			/* check if the password fields match or not */
+			if(password !== confirmed_password)
+			{
+				alert("Error: password fields do not match");
+				document.getElementById("password").value = "";
+				document.getElementById("confirmed_password").value = "";
+				return false;
+			}
+			else
+			{
+				/* passwords match, submit post*/
+				$.ajax({
+					type: "POST",
+					url: "changePassword.php",
+					data: password,
+					success: function(msg)
+					{
+						alert(msg)
+					}
+				})
+				return true;
+			}
+		}
+		</script>
+
 		<html lang="en">
 			<head>
 			  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -27,11 +64,12 @@
 					<div class="card blue white-text">
 						<div class="card-content">
 						  <span class="card-title">Type your new password below</span>
-						  <form id="loginForm" action="changePassword.php" method="post">
+						  <form id="loginForm" action="#" method="post" onsubmit="return checkPasswordsMatch()">
 						  <div class="col s12">
 							<div class="card white black-text">
 							  <div class="card-content">
 								<input id="password" name="password" type="password" class="validate" size="24" placeholder="New Password" value=""></input>
+								<input id="confirmed_password" name="confirmed_password" type="password" class="validate" size"24" placeholder="Confirm New Password" value=""></input>
 								<table>
 								  <tr>
 									<td>
@@ -53,7 +91,7 @@ END;
 	</body>
 END;
 	}
-	
+
 	//When there is post data for 'password', insert it into the database.
 	//Then return to home page
 	else
@@ -65,7 +103,7 @@ END;
 			{
 				//Passwords match, so update the database
 				$result = passwordHasher($_POST['username'],$_POST['password'],'update');
-				
+
 				//Display confirmation and redirect
 					echo <<< END
 	<html lang="en">
@@ -85,7 +123,7 @@ END;
 				<div class="card-content">
 				  <span class="card-title">Password changed successfully!</span>
 				  <p> Please wait...
-				  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a> 
+				  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a>
 				  <meta http-equiv="refresh" content="3; url=settings.php"/>
 				</div>
 		  </div>
@@ -115,7 +153,7 @@ END;
 				<div class="card-content">
 				  <span class="card-title">Passwords do not match. Please try again.</span>
 				  <p> Please wait...
-				  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a> 
+				  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a>
 				  <meta http-equiv="refresh" content="3; url=settings.php"/>
 				</div>
 		  </div>
@@ -125,7 +163,7 @@ END;
 				return;
 			}
 		}
-		
+
 		$gateway = new UsersGateway;
 		$result = passwordHasher($_POST['username'],$_POST['password'],'update');
 		$result = $gateway->updateLastLogin($_POST['username']);
@@ -136,7 +174,7 @@ END;
 		ini_set('session.gc_maxlifetime', 60*180);
 		setcookie('username', $username, time()+60*180);
 		setcookie('token', $token, time()+60*180);
-		
+
 		//Format the site using the CSS styling
 		echo <<< END
 		<html lang="en">
