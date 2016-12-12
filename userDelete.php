@@ -71,16 +71,3 @@ END;
 	
 	echo "</html>";
 ?>
-
-<?php
-	$option = isset($_POST['username']) ? $_POST['username'] : false;
-	if ($option) 
-	{
-		echo "Post: ".$_POST['username'];
-	}
-	else 
-	{
-		echo "task option is required";
-		exit; 
-	}
-?>

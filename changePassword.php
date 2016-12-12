@@ -63,6 +63,11 @@ END;
 		$result = $gateway->updateLastLogin($_POST['username']);
 		$token = hash('ripemd160', $username+$password+rand(58,round(microtime(true) * 1000)));
 		$gateway->loginUpdate(date("Y-m-d h:i:s"), $token, $username);
+		$_SESSION['username'] = $username;
+		$_SESSION['token'] = $token;
+		ini_set('session.gc_maxlifetime', 60*180);
+		setcookie('username', $username, time()+60*180);
+		setcookie('token', $token, time()+60*180);
 		
 		//Format the site using the CSS styling
 		echo <<< END

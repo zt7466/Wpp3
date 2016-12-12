@@ -79,9 +79,13 @@
 									}
 									else
 									{
-										$name = $result[$x][0];
-										$item = $firstPart.$name.$secondPart.$name.$thirdPart;
-										echo $item;
+										//Check to make sure current user is not in the list
+										if($result[$x][0] != $_SESSION['username'])
+										{
+											$name = $result[$x][0];
+											$item = $firstPart.$name.$secondPart.$name.$thirdPart;
+											echo $item;
+										}
 									}
 									
 									$x = $x+1;

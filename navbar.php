@@ -209,6 +209,9 @@ END;
 		  <!-------------------End Raistlin Hess----------------------------------------------------------->
 		</ul>
 		<ul class="right hide-on-med-and-down">
+		  <li><a href="events_page.php">Events</a></li>
+		</ul>
+		<ul class="right hide-on-med-and-down">
 		  <li><a href="teams.php">Teams</a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
