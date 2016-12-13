@@ -75,225 +75,11 @@ _END;
     <div class="container">
       <br><br>
 
+
       <div class="row">
-        <div class="col s12 l5">
-          <h1 class="header center orange-text">News</h1>
-
-          <div class="card blue-grey">
-            <div class="card-content white-text">
-              <span class="card-title">Card Title</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Card Title</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-
-          <div class="card red lighten-2">
-            <div class="card-content">
-              <span class="card-title">Card Title</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-        <div class="col s12 l7">
+        <div class="col s12 l12">
           <h1 class="header center orange-text">Tally</h1>
-
-          <div class="card-stacked">
-            <div class="card horizontal">
-              <div class="card-stacked deep-orange darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked green darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked blue darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked">
-                <div class="card-content">
-                  <p>Event description goes somewhere</p>
-                </div>
-                <div class="card-action">
-                  <a href="#">This is a link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Event Title - Nov 13, 2014</span>
-              <div class="card horizontal">
-                <div class="card-stacked blue darken-1">
-                  <div class="card-content white-text">
-                    <h2>103</h2>
-                    <p>Null Pointer</p>
-                  </div>
-                </div>
-                <div class="card-stacked green darken-1">
-                  <div class="card-content white-text">
-                    <h2>103</h2>
-                    <p>Null Pointer</p>
-                  </div>
-                </div>
-                <div class="card-stacked red darken-1">
-                  <div class="card-content white-text">
-                    <h2>103</h2>
-                    <p>Null Pointer</p>
-                  </div>
-                </div>
-              </div>
-              <p>This would be the event description. This would be the event description. This would be the event description.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Event Title - Nov 13, 2014</span>
-              <div class="card horizontal">
-                <div class="card-stacked blue darken-1">
-                  <div class="card-content white-text">
-                    <h2>103</h2>
-                    <p>Null Pointer</p>
-                  </div>
-                </div>
-                <div class="card-stacked green darken-1">
-                  <div class="card-content white-text">
-                    <h2>103</h2>
-                    <p>Null Pointer</p>
-                  </div>
-                </div>
-                <div class="card-stacked red darken-1">
-                  <div class="card-content white-text">
-                    <h2>103</h2>
-                    <p>Null Pointer</p>
-                  </div>
-                </div>
-              </div>
-              <p>This would be the event description. This would be the event description. This would be the event description.</p>
-            </div>
-          </div>
-
-          <div class="card-stacked">
-            <div class="card horizontal">
-              <div class="card-stacked deep-orange darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked green darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked blue darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked">
-                <div class="card-content">
-                  <p>Event description goes somewhere</p>
-                </div>
-                <div class="card-action">
-                  <a href="#">This is a link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-stacked">
-            <div class="card horizontal">
-              <div class="card-stacked deep-orange darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked green darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked blue darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked">
-                <div class="card-content">
-                  <p>Event description goes somewhere</p>
-                </div>
-                <div class="card-action">
-                  <a href="#">This is a link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-stacked">
-            <div class="card horizontal">
-              <div class="card-stacked deep-orange darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked green darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked blue darken-4">
-                <div class="card-content white-text">
-                  <h2>103</h2>
-                  <p>Null Pointer</p>
-                </div>
-              </div>
-              <div class="card-stacked">
-                <div class="card-content">
-                  <p>Event description goes somewhere</p>
-                </div>
-                <div class="card-action">
-                  <a href="#">This is a link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <?php include("modulesEventsThing.php"); ?>
         </div>
       </div>
       <br><br>
@@ -362,9 +148,8 @@ _END;
 				$logo = $team['Logo'];
 				$color = $team['Color'];
 				$points = $team['Points'];
-				$totalPoints = PointsGateway::sumPoints();
-				$sumPoints = $totalPoints['SumPoints'];
-				$fillAmount = ($points / $sumPoints);
+				$sumPoints = $totalPoints[0]['SumPoints'];
+				$fillAmount = ($points / $sumPoints) *100;
 				echo <<<_END
 				var canvas = document.getElementById("$name");
 	          new CircleAnimation({
@@ -377,7 +162,7 @@ _END;
 	              'step': 1,
 	              'circlecolor': '#808080',
 	              'fillcolor': "$color" //Need proper color for crew
-	          }).start( $sumPoints); //This is where the sizes of the drawn color is modified.
+	          }).start( $fillAmount); //This is where the sizes of the drawn color is modified.
 
 
 _END;
