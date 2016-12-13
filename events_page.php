@@ -23,6 +23,7 @@
 
   <?php displayNavbar(); ?>
 
+<div class="container">
  <?php 
     $events = EventsGateway::getAllEvents();
   
@@ -53,7 +54,8 @@
             $outOfBoundsPoints = 'N/A';
           }
             echo <<<_END
-      <div class="card">
+          <div class="row s12">
+          <div class="card">
             <div class="card-content">
               <span class="card-title">$title -  $date</span>   
               <div class="card horizontal">     
@@ -80,12 +82,13 @@
               <p>$description</p>   
             </div>
           </div>
+          </div>
 _END;
 
   }
   echo "</table> <br>";
    ?>
-
+</div>
 
   <?php displayFooter(); ?>
 

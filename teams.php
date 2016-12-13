@@ -17,8 +17,6 @@
 </head>
 <body>
   <?php displayNavbar(); ?>
-  <body>
-    <div class="section no-pad-bot" id="index-banner">
         <div class="container">
           <br><br>
           <div id="teams" class="row">
@@ -69,8 +67,6 @@
           </div>
           <br><br>
         </div>
-      </div>
-  </body>
 
   <?php displayFooter(); ?>
 

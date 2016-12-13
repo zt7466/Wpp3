@@ -21,9 +21,6 @@
 <html lang="en">
 <head>
 <script src="assets/lib/jquery/jquery-2.1.1.min.js"></script>
-  <script>
-    $( document ).ready(function(){$(".button-collapse").sideNav();});
-  </script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>Team Homepage</title>
@@ -43,19 +40,22 @@
       <div class="row">
 
 				<?php
-				$teams = getAllTeams();
-				while($row = mysqli_fetch_array($teams))
+				$teams = TeamsGateway::getAllTeams();
+				foreach($teams as $team)
 				{
-
+					$name = $team['Name'];
+					$logo = $team['Logo'];
+					$color = $team['Color'];
+					$points = $team['Points'];
 				echo <<<_END
 				<div class="col s12 l4">
           <div class="card large">
             <div class="card-image">
-              <canvas id="$row[0]" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
+              <canvas id="$name" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
             </div>
             <div class="card-content">
-              <span class="card-title">Null Pointer</span>
-              <h1 id="$row[2]">[Score]</h1>
+              <span class="card-title">$name</span>
+              <h1 id="$name.score">$points</h1>
             </div>
             <div class="card-action">
               <a href="#">View team page</a>
@@ -65,38 +65,6 @@
 _END;
 				}
 				?>
-
-
-
-        <div class="col s12 l4">
-          <div class="card large">
-            <div class="card-image">
-              <canvas id="Crew2" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Off by One</span>
-              <h1 id="Crew2SCore">[Score]</h1>
-
-            </div>
-            <div class="card-action">
-              <a href="#">View team page</a>
-            </div>
-          </div>
-        </div>
-        <div class="col s12 l4">
-          <div class="card large">
-            <div class="card-image">
-              <canvas id="Crew3" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Out of Bounds</span>
-              <h1 id="Crew3Score">[Score]</h1>
-            </div>
-            <div class="card-action">
-              <a href="#">View team page</a>
-            </div>
-          </div>
-        </div>
       </div>
       <br><br>
     </div>
@@ -384,42 +352,31 @@ _END;
               else clearInterval(handle);
           }
       }
-      // create the new object, add options, and start the animation with desired percentage
-      var canvas = document.getElementById("Crew1");
-      new CircleAnimation({
-          'canvas': canvas,
-          'width': canvas.width,
-          'height': canvas.height,
-          'radius': 100,
-          'linewidth': 10,
-          'interval': 20,
-          'step': 1,
-          'circlecolor': '#808080',
-          'fillcolor': '#0000CD'  //Need proper color for crew
-      }).start( 70 ); //This is where the sizes of the drawn color is modified.
-      var canvas = document.getElementById("Crew2");
-          new CircleAnimation({
-              'canvas': canvas,
-              'width': canvas.width,
-              'height': canvas.height,
-              'radius': 100,
-              'linewidth': 10,
-              'interval': 20,
-              'step': 1,
-              'circlecolor': '#808080',
-              'fillcolor': '#7CFC00'  //Need proper color for crew
-          }).start( 30 ); //This is where the sizes of the drawn color is modified.
-      var canvas = document.getElementById("Crew3");
-          new CircleAnimation({
-              'canvas': canvas,
-              'width': canvas.width,
-              'height': canvas.height,
-              'radius': 100,
-              'linewidth': 10,
-              'interval': 20,
-              'step': 1,
-              'circlecolor': '#808080',
-              'fillcolor': '#FF0000' //Need proper color for crew
-          }).start( 50 ); //This is where the sizes of the drawn color is modified.
+      <?php
+			$teams = TeamsGateway::getAllTeams();
+			foreach($teams as $team)
+			{
+				$name = $team['Name'];
+				$logo = $team['Logo'];
+				$color = $team['Color'];
+				$points = $team['Points'];
+				echo <<<_END
+				var canvas = document.getElementById("$name");
+	          new CircleAnimation({
+	              'canvas': canvas,
+	              'width': canvas.width,
+	              'height': canvas.height,
+	              'radius': 100,
+	              'linewidth': 10,
+	              'interval': 20,
+	              'step': 1,
+	              'circlecolor': '#808080',
+	              'fillcolor': "$color" //Need proper color for crew
+	          }).start( 30 ); //This is where the sizes of the drawn color is modified.
+
+
+_END;
+			}
+			 ?>
   </script>
 </html>

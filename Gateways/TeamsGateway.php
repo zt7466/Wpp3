@@ -50,10 +50,10 @@ require_once 'ConnectionHandler.php';
 
       try
       {
-        $statement = ConnectionHandler::getConnection()->prepare("SELECT * FROM webprog27.Teams");
+        $statement = ConnectionHandler::getConnection()->prepare("SELECT Teams.Name,Teams.Logo,Teams.Color,TeamTotalPoints.Points FROM webprog27.Teams JOIN webprog27.TeamTotalPoints ON Teams.ID = TeamTotalPoints.TeamID");
         $statement->execute();
         $allTeams = $statement->fetchAll();
-        print_r($allTeams);
+        // print_r($allTeams);
       }
       catch (PDOException $e)
       {
