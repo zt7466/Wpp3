@@ -92,6 +92,31 @@ require_once 'ConnectionHandler.php';
       }
 
       /**
+       * @return all events
+       */
+      public static function getAllEventsLimit($limit)
+      {
+        $statement = null;
+        $allEvents = null;
+
+        try
+        {
+          $statement = ConnectionHandler::getConnection()->prepare("Select * FROM webprog27.Events ORDER BY Date DESC LIMIT :limit");
+          $statement->bindParam(':limit', $limit);
+          $statement->execute();
+          $allEvents = $statement->fetchAll();
+        }
+        catch(PDOException $e)
+        {
+          $successful = false;
+          // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        }
+
+        $statement->closeCursor();
+        return $allEvents;
+      }
+
+      /**
        * updates an event
        *
        * @param  $id
