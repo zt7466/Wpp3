@@ -2,17 +2,18 @@
 	/*---------------------*
 	 * Raistlin Hess       *
 	 *---------------------*/
-	 
+
 	//Require the navbar file to run
 	require_once 'navbar.php';
 	require_once 'footer.php';
+	require_once 'Gateways/TeamsGateway.php';
 	session_start();
 	//$result = passwordHasher('test', 'password', 'insert');//$gateway->insert("raistlin","password");
-	
+
 	/*---------------------*
 	 * End Raistlin Hess   *
 	 *---------------------*/
-?> 
+?>
 
 <!--
 @author Joss Steward, Brad Olah, Raistlin Hess
@@ -40,20 +41,33 @@
     <div class="container">
       <br><br>
       <div class="row">
-        <div class="col s12 l4">
+
+				<?php
+				$teams = getAllTeams();
+				while($row = mysqli_fetch_array($teams))
+				{
+
+				echo <<<_END
+				<div class="col s12 l4">
           <div class="card large">
             <div class="card-image">
-              <canvas id="Crew1" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
+              <canvas id="$row[0]" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
             </div>
             <div class="card-content">
               <span class="card-title">Null Pointer</span>
-              <h1 id="Crew1Score">[Score]</h1>
+              <h1 id="$row[2]">[Score]</h1>
             </div>
             <div class="card-action">
               <a href="#">View team page</a>
             </div>
           </div>
         </div>
+_END;
+				}
+				?>
+
+
+
         <div class="col s12 l4">
           <div class="card large">
             <div class="card-image">
@@ -119,7 +133,7 @@
               <a href="#">This is a link</a>
             </div>
           </div>
-          
+
           <div class="card red lighten-2">
             <div class="card-content">
               <span class="card-title">Card Title</span>
@@ -132,7 +146,7 @@
             </div>
           </div>
         </div>
-        <div class="col s12 l7">          
+        <div class="col s12 l7">
           <h1 class="header center orange-text">Tally</h1>
 
           <div class="card-stacked">
@@ -168,7 +182,7 @@
 
           <div class="card">
             <div class="card-content">
-              <span class="card-title">Event Title - Nov 13, 2014</span>        
+              <span class="card-title">Event Title - Nov 13, 2014</span>
               <div class="card horizontal">
                 <div class="card-stacked blue darken-1">
                   <div class="card-content white-text">
@@ -188,14 +202,14 @@
                     <p>Null Pointer</p>
                   </div>
                 </div>
-              </div>    
-              <p>This would be the event description. This would be the event description. This would be the event description.</p>   
+              </div>
+              <p>This would be the event description. This would be the event description. This would be the event description.</p>
             </div>
           </div>
 
           <div class="card">
             <div class="card-content">
-              <span class="card-title">Event Title - Nov 13, 2014</span>        
+              <span class="card-title">Event Title - Nov 13, 2014</span>
               <div class="card horizontal">
                 <div class="card-stacked blue darken-1">
                   <div class="card-content white-text">
@@ -215,8 +229,8 @@
                     <p>Null Pointer</p>
                   </div>
                 </div>
-              </div>    
-              <p>This would be the event description. This would be the event description. This would be the event description.</p>   
+              </div>
+              <p>This would be the event description. This would be the event description. This would be the event description.</p>
             </div>
           </div>
 
@@ -311,7 +325,7 @@
             </div>
           </div>
 
-        </div>               
+        </div>
       </div>
       <br><br>
     </div>
@@ -326,7 +340,7 @@
   <!--<script src="js/init.js"></script>-->
 
   </body>
-  
+
   <!--the animdations for the circles-->
   <script>
       function CircleAnimation( opt )

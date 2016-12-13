@@ -95,10 +95,11 @@ require_once 'ConnectionHandler.php';
 		{
 			$statement = null;
 			$successful = false;
-	
+			$result = false;
+
 			try
 			{
-				$statement = ConnectionHandler::getConnection()->prepare("SELECT Email FROM webprog27.Emails WHERE Verified = 1");
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT Email, UnsubscribeID FROM webprog27.Emails WHERE Verified = 1");
 				$successful = $statement->execute();	
           		$result = $statement->fetchAll();
 			}
