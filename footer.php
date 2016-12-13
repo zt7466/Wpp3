@@ -2,7 +2,7 @@
 /*
  * Displays a footer with links and copyright info
  */
- 
+
  function displayFooter()
  {
 	 echo <<< END
