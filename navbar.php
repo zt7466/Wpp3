@@ -21,6 +21,9 @@
 		  session_destroy();
 	  }
 	  
+	  $imagePath = '/webprog27/assets/images/';
+	  $imageExt = '.png';
+	  
 	/*---------------------*
 	 * End Raistlin Hess   *
 	 *---------------------*/
@@ -257,5 +260,20 @@ END;
 			document.getElementById("changePassForm").submit();
 			return true;
 		}
+	}
+	</script>
+	
+	<script type="text/javascript">
+	/*
+	 * Raistlin Hess
+	 *
+	 * Updates fields under Edit Team in settings.php with current values
+	 */
+	function teamEditUpdates()
+	{
+		var thisTeam = document.getElementById("team_select").value;
+		document.getElementById("new_name").value = document.getElementById("hiddenName"+thisTeam).value;
+		document.getElementById("new_logo").value = document.getElementById("hiddenLogo"+thisTeam).value;
+		document.getElementById("new_color").value = document.getElementById("hiddenColor"+thisTeam).value;
 	}
 	</script>

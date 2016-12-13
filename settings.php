@@ -92,9 +92,9 @@
 								}
 							?>
 						</select>
+					</div>
 						<button type="submit" class="btn orange waves-effect waves">Submit</button>
 					</form>
-				  </div>
 			  </div>
 		  </div>
 		  </li>
@@ -123,7 +123,7 @@
 			  <div class="card blue">
 				<div class="card-content white-text">
 				  <span class="card-title"><b>Add Team</b></span>
-					  <form id="addTeam" action="addTeam.php" method="post">
+					  <form id="addTeam" action="teamAdd.php" method="post">
 						<label for="teamname" class="card-title white-text">Team Name</label>
 						<input type="text" class="grey lighten-4 black-text round" name="teamname" id="teamname" size="24" placeholder="Team Name" value="" required></input>
 						<label for="color" class="card-title white-text">Team Color<center>Preview</center></label>
@@ -155,8 +155,8 @@
 				  <div class="card-content white-text">
 					  <span class="card-title"><b>Remove Team</b></span>
 					  <div class="row"> 						
-						<form action="userDelete.php" method="post">
-						<select name="username" class="btn white black-text waves-effect">
+						<form action="teamDelete.php" method="post">
+						<select name="teamDel" class="btn white black-text waves-effect">
 							<option value="first">Select a team...</option>
 							<?php
 								//Set up tag template
@@ -189,11 +189,11 @@
 								}
 							?>
 						</select>
-						<button type="submit" class="btn orange waves-effect waves">Submit</button>
+					  </div>
+					  <button type="submit" class="btn orange waves-effect waves">Submit</button>
 					</form>
 				  </div>
 			  </div>
-		  </div>
 		  </div>
 		  </li>
 		  <li>
@@ -202,7 +202,73 @@
 			  <div class="card blue">
 				<div class="card-content white-text">
 				  <span class="card-title"><b>Edit Team</b></span>
-				  Dummy text
+				  <div class="row"> 						
+					<form action="teamEdit.php" method="post">
+					<select id="team_select" name="team_select" class="btn white black-text waves-effect" onchange="teamEditUpdates();">
+						<option value="first">Select a team...</option>
+						<?php
+							//Set up tag template
+							$firstPart = '<option value=';
+							$secondPart = '>';
+							$thirdPart = '</option>';
+							
+							//Get connection to the Teams database and store all
+							//rows' usernames
+							$conn = ConnectionHandler::getConnection();
+							$result = $conn->query("SELECT Name from webprog27.Teams;");
+							$result = $result->fetchAll();
+							
+							//Loop through each row and add
+							$x = 0;
+							while($result[$x]['Name'] != null)
+							{
+								if($result[$x]['Name'] == null)
+								{
+									echo "Column at ".$x." was null<br>";
+								}
+								else
+								{
+									$name = $result[$x]['Name'];
+									$item = $firstPart.$name.$secondPart.$name.$thirdPart;
+									echo $item;
+								}
+								
+								$x = $x+1;
+							}
+						?>
+					</select>
+						<?php
+							//Get connection to the Teams database and store all
+							//rows' usernames
+							$conn = ConnectionHandler::getConnection();
+							$result = $conn->query("SELECT * from webprog27.Teams;");
+							$result = $result->fetchAll();
+							
+							//Loop through each row and add
+							$x = 0;
+							while($result[$x]['Name'] != null)
+							{
+								//Echo hidden form items, storing Name, Logo, and Color for 
+								//javascript function to update the forms
+								echo '<input type="hidden" id="hiddenName'.$result[$x]['Name'].'" value="'.$result[$x]['Name'].'"></input>';
+								echo '<input type="hidden" id="hiddenLogo'.$result[$x]['Name'].'" value="'.$result[$x]['Logo'].'"></input>';
+								echo '<input type="hidden" id="hiddenColor'.$result[$x]['Name'].'" value="'.$result[$x]['Color'].'"></input>';
+								$x = $x+1;
+							}
+						?>
+				</div>
+				<div class="row">
+				<label for="new_name" class="card-title white-text">New Name</label>
+				<input type="text" class="grey lighten-4 black-text round" name="new_name" id="new_name" size="24" placeholder="New Name" value=""></input>
+				<label for="new_logo" class="card-title white-text">New Logo</label>
+				<input type="text" class="grey lighten-4 black-text round" name="new_logo" id="new_logo" size="24" placeholder="New Logo" value=""></input>
+				<label for="new_color" class="card-title white-text">New Color</label>
+				<input type="text" class="grey lighten-4 black-text round" name="new_color" id="new_color" size="24" placeholder="New Color" value=""></input>
+				</div>
+				<div class="row">
+					<button type="submit" class="btn orange waves-effect waves">Submit</button></p>
+				</div>
+				</form>
 				</div>
 			  </div>
 		  </div>
