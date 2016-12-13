@@ -1,4 +1,9 @@
 <?php
+//	echo "Team name: ".$_POST['teamname']."<br>";
+	//echo "Color: ".$_POST['color']."<br>";
+?>
+
+<?php
 	/*-------------------------------------------------------\
 	|					Raistlin Hess						 |
 	\-------------------------------------------------------*/
@@ -6,13 +11,13 @@
 	require_once 'Gateways/TeamsGateway.php';
 	echo "<head><link rel='site icon' href='favicon.ico' type='image/x-icon'/></head>";
 	
-	//Set up beginning of div tags
+	//Html formatting
 	echo <<< END
 	<html lang="en">
 		<head>
 		  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-		  <title>Team Deletion</title>
+		  <title>Account Creation</title>
 		  <!-- CSS  -->
 		  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		  <link href="assets/lib/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -24,25 +29,41 @@
 				<div class="card blue white-text">
 					<div class="card-content">
 END;
+
+	//Replace spaces with underscore
+	$teamname = preg_replace('/\s+/', '_', $_POST['teamname']);
 	
-	//Delete team from the database
-	$conn = ConnectionHandler::getConnection();
-	$statement = ConnectionHandler::getConnection()->prepare("DELETE FROM webprog27.Teams WHERE Name=:name");
-	$statement->bindParam(':name', $_POST['teamDel']);
-	$successful = $statement->execute();
+	//Check if team exists
+	$gateway = new TeamsGateway;
+	$result = $gateway->insert($teamname, $imagePath.$teamname.$imageExt, $_POST['color']);
 	
-	//Display webpage stating team exists already
-	echo '<span class="card-title">'.$_POST['teamDel'].' has been deleted successfully!';
-	echo <<< END
-		  </span>
+	//Team exists
+	if($result != FALSE)
+	{
+		  echo '<span class="card-title">Team '.$teamname.' successfully added!</span>';
+		  echo <<< END
 		  <p> Please wait...
 		  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a> 
 		  <meta http-equiv="refresh" content="3; url=settings.php"/>
-		</div>
-  </div>
-</div>
-</body>
 END;
+	}
+	//Team does not exist
+	else
+	{
+		echo <<< END
+		  <span class="card-title">This team already exists...</span>
+		  <p> Please wait...
+		  <p> <a href="settings.php" class="white-text">Click here if you are not automatically redirected.</a> 
+		  <meta http-equiv="refresh" content="3; url=settings.php"/>
+END;
+	}
 	
-	echo "</html>";
+	//Close html tags
+	echo <<< END
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
+END;
 ?>
