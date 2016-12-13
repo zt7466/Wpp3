@@ -215,7 +215,7 @@ END;
 		  <li><a href="teams.php">Teams</a></li>
 		</ul>
 		<ul class="right hide-on-med-and-down">
-		  <li><a href="#">Subscribe to Email</a></li>
+		  <li><a href="subscribe.php">Email Notifications</a></li>
 		</ul>
 
 		<ul id="nav-mobile" class="side-nav">
