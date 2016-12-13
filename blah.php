@@ -1,5 +1,5 @@
 <?php
-echo 'hello';
+echo 'hello ' . $_POST['username'];
 
 //   if(strlen($_POST['password']) > 0)
 //   {

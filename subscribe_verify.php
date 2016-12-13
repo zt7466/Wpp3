@@ -1,23 +1,9 @@
 <?php
     require_once 'email/emailHandler.php';
     require_once 'Gateways/EmailsGateway.php';
-
-    $verification_message = "You have signed up for notifications from the Crew Scoreboard!\r\n" .
-    "Please follow the following link to verify your email: http://webprog.cs.ship.edu/webprog27/subscribe_verify.php?token=";
-
-    // ... Theoretically these could return duplicate values.
-    // But whatever. There's like a 1:10398423245731249878907189074 chance
-    $sub_id = uniqid();
-    $unsub_id = uniqid();
-
-    $e = new EmailTools();
-    $result = $e->sendmail($_POST['email'], "Verification Email", $verification_message . $sub_id);
-
-    if($result) {
-        $g = new EmailsGateway();
-
-        $result = $g->insert($_POST['email'], $sub_id, $unsub_id);
-    }
+    
+    $g = new EmailsGateway();
+    $result = $g->verify($_REQUEST['token']);
     
 	//Require the navbar file to run
 	require_once 'navbar.php';
@@ -39,10 +25,10 @@
         <?php displayNavbar(); ?>
         <div class="container">
             <div class="col s12">
-                <?php if($result) { ?>
-                <h3>A verification email has been sent to <?php echo $_POST['email']; ?></h3>
+                <?php if(true) { ?>
+                <h3>Email successfully verified. Enjoy.</h3>
                 <?php } else { ?>
-                <h3>A verification email could not be sent to <?php echo $_POST['email']; ?></h3>
+                <h3>An error occurred while attempting to verify your email, please try again eventually.</h3>
                 <?php } ?>
             </div>
         </div>

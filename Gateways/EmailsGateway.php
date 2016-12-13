@@ -24,48 +24,91 @@ require_once 'ConnectionHandler.php';
 
 			try
 			{
-				$statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Emails (Email, VerificationID, UnsubscribeID) VALUES (:email, :verificationID, :unsubscribeID)");
+				$statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Emails (Email, Verified, VerificationID, UnsubscribeID) VALUES (:email, 0, :verificationID, :unsubscribeID)");
 				$statement->bindParam(':email', $email);
 				$statement->bindParam(':verificationID', $verificationID);
 				$statement->bindParam(':unsubscribeID', $unsubscribeID);
 				$successful = $statement->execute();
 			}
 			catch (PDOException $e)
-      {
+      		{
 				$successful = false;
-        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
-      }
+        		//echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+      		}
 
 			$statement->closeCursor();
 			return $successful;
 		}
 
 		/**
-		 * TODO: ASK JOSS ABOUT
+		 * Author: Joss
 		 */
-	// 	public static function update($verified)
-	// 	{
-	// 		$statement = null;
-	// 		$successful = false;
-	//
-	// 		try
-	// 		{
-	//
-	// 		}
-	// 		catch (PDOException $e)
-  //     {
-  //       echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
-  //     }
-	//
-	// 		$statement->closeCursor();
-	// 		return $successful;
-	// 	}
+		public static function verify($verificationID)
+		{
+			$statement = null;
+			$successful = false;
+	
+			try
+			{
+				$statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Emails SET Verified=1 WHERE VerificationID = :verificationID");
+				$statement->bindParam(':verificationID', $verificationID);				
+				$successful = $statement->execute();	
+			}
+			catch (PDOException $e)
+			{
+				echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				$successful = false;
+			}
+	
+			$statement->closeCursor();
+			return $successful;
+		}
+
+		/**
+		 * Author: Joss
+		 */
+		public static function unsubscribe($unsubscribeID)
+		{
+			$statement = null;
+			$successful = false;
+	
+			try
+			{
+				$statement = ConnectionHandler::getConnection()->prepare("DELETE FROM webprog27.Emails WHERE UnsubscribeID = :unsubscribeID");
+				$statement->bindParam(':unsubscribeID', $unsubscribeID);
+				$successful = $statement->execute();	
+			}
+			catch (PDOException $e)
+			{
+				echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+			}
+	
+			$statement->closeCursor();
+			return $successful;
+		}
+
+
+		/**
+		 * Author: Joss
+		 */
+		public static function getVerifiedEmails()
+		{
+			$statement = null;
+			$successful = false;
+	
+			try
+			{
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT Email FROM webprog27.Emails WHERE Verified = 1");
+				$successful = $statement->execute();	
+          		$result = $statement->fetchAll();
+			}
+			catch (PDOException $e)
+			{
+				echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+			}
+	
+			$statement->closeCursor();
+			return $result;
+		}
 	}
-
-	if(EmailsGateway::insert('dr5801@ship.edu', '2987398hfajkhsdf', '2135asdf45454'))
-	{
-		echo 'execution successful';
-	}
-
-
 ?>
