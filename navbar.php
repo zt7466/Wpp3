@@ -75,7 +75,6 @@
 		echo <<< END
 		<div class="navbar-fixed">
 		<nav class="light-blue" style="box-shadow: 0 0 0 0;">
-			<?php displayNavbar(); ?>
 		<div class="nav-wrapper container">
 		<a id="logo-container" href="index.php" class="brand-logo">Scoreboard</a>
 		<ul class="right hide-on-med-and-down">
@@ -148,11 +147,9 @@ END;
 					  <tr>
 						<td>
 						  <button id="loginButton" type="submit" class="btn waves-effect waves-light blue" value="Submit">Submit</button>
-						  <a href="forgotPassword.php" id="forgot" style="color:#000000" size="5">Forgot password?</a>
 						</td>
 						<td>
 						  <a href="javascript:display(0);" class="btn waves-effect waves-light blue" id="hideLogin">Close</a>
-						  <a href="registerAccount.php" id="registerAcc" style="color:#000000">Register</a>
 						</td>
 					  </tr>
 					</table>
@@ -193,8 +190,11 @@ END;
 						</td>
 						<td>
 						  <a href="javascript:display(0);" class="btn waves-effect waves-light blue" id="hideLogin">Close</a>
-						  <a href="settings.php" id="registerAcc" style="color:#000000">Settings</a>
+						  <div style="color:FFFFFF">I am dummy text!</div>
 						</td>
+						<tr>
+						 <a href="settings.php" id="registerAcc" class="btn waves-effect waves-light orange">Settings</a>
+						</tr>
 					  </tr>
 					</table>
 				  </div>
