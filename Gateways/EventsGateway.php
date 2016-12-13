@@ -135,7 +135,7 @@ require_once 'ConnectionHandler.php';
 
         try
         {
-          $statement = ConnectionHandler::getConnection()->prepare("SELECT e.ID as id, e.Name as event_name, e.Date as event_date, e.Description as event_desc, t.Name as team_name, p.Points as points, t.Color as team_bg FROM Events e JOIN Points p ON p.EventID = e.ID JOIN Teams t ON p.TeamID = t.ID ORDER BY e.Date DESC LIMIT :limit");
+          $statement = ConnectionHandler::getConnection()->prepare("SELECT e.ID as id, e.Name as event_name, e.Date as event_date, e.Description as event_desc, t.Name as team_name, p.Points as points, t.Color as team_bg FROM Events e JOIN Points p ON p.EventID = e.ID JOIN Teams t ON p.TeamID = t.ID ORDER BY e.Date DESC, t.Name DESC LIMIT :limit");
           $statement->bindParam(':limit', $limit);
           $statement->execute();
           $allEvents = $statement->fetchAll();

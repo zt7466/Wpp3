@@ -26,6 +26,11 @@
               </div>
               <p><?php echo $event_desc; ?></p>
             </div>
+            <?php if($logged_in) { ?>
+            <div class="card-action">
+              <a href="event_delete.php?event_id=<?php echo $current_id;?>">Delete</a>
+            </div>
+            <?php } ?>
           </div>
         </div>
         <?php
@@ -42,6 +47,7 @@
           <div class="card">
             <div class="card-content">
               <span class="card-title"><?php echo $event_name . " (" . $event_date . ")"; ?></span>
+
               <div class="card horizontal">
         <?php } ?>
               <div class="card-stacked" style="background-color: <?php echo $team_bg; ?>;">
@@ -54,5 +60,10 @@
         </div>
         <p><?php echo $event_desc; ?></p>
     </div>
+    <?php if($logged_in) { ?>
+    <div class="card-action">
+      <a href="event_delete.php?event_id=<?php echo $current_id;?>">Delete</a>
+    </div>
+    <?php } ?>
     </div>
 </div>
