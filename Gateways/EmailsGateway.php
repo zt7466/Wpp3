@@ -8,8 +8,6 @@ require_once 'ConnectionHandler.php';
 	 */
 	class EmailsGateway
 	{
-		private static $connection = null;
-
 		/**
 		 * inserts an email into the Emails table
 		 * @param  $email
@@ -47,19 +45,19 @@ require_once 'ConnectionHandler.php';
 		{
 			$statement = null;
 			$successful = false;
-	
+
 			try
 			{
 				$statement = ConnectionHandler::getConnection()->prepare("UPDATE webprog27.Emails SET Verified=1 WHERE VerificationID = :verificationID");
-				$statement->bindParam(':verificationID', $verificationID);				
-				$successful = $statement->execute();	
+				$statement->bindParam(':verificationID', $verificationID);
+				$successful = $statement->execute();
 			}
 			catch (PDOException $e)
 			{
-				echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				// echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
 				$successful = false;
 			}
-	
+
 			$statement->closeCursor();
 			return $successful;
 		}
@@ -71,18 +69,18 @@ require_once 'ConnectionHandler.php';
 		{
 			$statement = null;
 			$successful = false;
-	
+
 			try
 			{
 				$statement = ConnectionHandler::getConnection()->prepare("DELETE FROM webprog27.Emails WHERE UnsubscribeID = :unsubscribeID");
 				$statement->bindParam(':unsubscribeID', $unsubscribeID);
-				$successful = $statement->execute();	
+				$successful = $statement->execute();
 			}
 			catch (PDOException $e)
 			{
-				echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				// echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
 			}
-	
+
 			$statement->closeCursor();
 			return $successful;
 		}
@@ -100,14 +98,14 @@ require_once 'ConnectionHandler.php';
 			try
 			{
 				$statement = ConnectionHandler::getConnection()->prepare("SELECT Email, UnsubscribeID FROM webprog27.Emails WHERE Verified = 1");
-				$successful = $statement->execute();	
+				$successful = $statement->execute();
           		$result = $statement->fetchAll();
 			}
 			catch (PDOException $e)
 			{
-				echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+				// echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
 			}
-	
+
 			$statement->closeCursor();
 			return $result;
 		}
