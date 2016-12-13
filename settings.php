@@ -104,52 +104,14 @@
 			  <div class="card blue">
 				<div class="card-content white-text">
 				  <span class="card-title"><b>Change Password</b></span>
-				  <!--<script type="text/javascript">
-					/**
-					 * @author Drew Rife
-					 *
-					 * Checks to see if the passwords match when changing the password 
-					 */
-					function checkPasswordsMatch()
-					{
-						var password = document.getElementById("new_password").value;
-						var confirmed_password = document.getElementById("confirm").value;
-						
-						/* check if the password fields match or not */
-						if(password !== confirmed_password)
-						{
-							alert("Error: password fields do not match");
-							document.getElementById("new_password").value = "";
-							document.getElementById("confirm").value = "";
-							return false;
-						}
-						else
-						{
-							/* passwords match, submit post*/
-							$.ajax({
-								type: "POST",
-								url: "changePassword.php",
-								data: password,
-								success: function(msg)
-								{
-									alert(msg)
-								}
-							})
-							return true;
-						}
-					}
-					</script>
-					  <form id="loginForm" action="#" method="post" onsubmit="return checkPasswordsMatch()">
-						<label for="password" class="card-title white-text">New Password</label>
+					  <form id="changePassForm" action="changePassword.php" method="post">
+						<label for="new_password" class="card-title white-text">New Password</label>
 						<input type="password" class="grey lighten-4 black-text round" name="new_password" id="new_password" size="24" placeholder="New Password" value="" required></input>
 						<label for="confirm" class="card-title white-text">Confirm</label>
 						<input type="password" class="grey lighten-4 black-text round" name="confirm" id="confirm" size="24" placeholder="Confirm" value="" required></input>
-						<button id="createSubmit" type="submit" class="btn orange waves-effect waves" value="Submit">Submit</button>
+						<a href="javascript:checkPasswordsMatch();" class="btn orange waves-effect waves" id="changePassSubmit">Submit</a>
+						<input type="hidden" name="password" id="password" value="1"></input>
 						<?php echo '<input type="hidden" name="username" id="username" value='.$_SESSION['username'].'></input>'; ?>
-					  </form>
-					  -->
-					  <form id="loginForm" action="changePassword.php" method="post">
-						<button id="createSubmit" type="submit" class="btn orange waves-effect waves" value="Submit">Continue</button>
 					  </form>
 				</div>
 			  </div>
