@@ -16,10 +16,11 @@ require_once 'ConnectionHandler.php';
      * @param  $color
      * @return true if executed; false otherwise
      */
-    public static function insert($name, $logo, $color)
+    public static function insert($name, $color)
     {
       $statement = null;
       $successful = false;
+      $logo = "~/public_html/assets/logos/" . $name . ".png";
 
       try
       {
