@@ -2,6 +2,7 @@
 	//Require the navbar file to run
 	require_once 'navbar.php';
 	require_once 'footer.php';
+	require_once 'Gateways/TeamsGateway.php';
 	session_start();
 ?>
 <html lang="en">
@@ -20,50 +21,33 @@
         <div class="container">
           <br><br>
           <div id="teams" class="row">
-            <div class="col s12 m7">
+						<?php
+						$teams = TeamsGateway::getAllTeams();
+						foreach($teams as $team)
+						{
+							$name = $team['Name'];
+							$logo = $team['Logo'];
+							$color = $team['Color'];
+							$points = $team['Points'];
+						echo <<<_END
+            <div class="col s12 m12">
               <div class="card horizontal">
                 <div class="card-image">
-                  <canvas id="Crew1" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
+								<img src="$logo" alt="$name logo" style="width:200;height:200">
                 </div>
                 <div class="card-content">
-                  <span class="card-title">Null Pointer</span>
-                  <h1 id="Crew1Score">[Score]</h1>
+                  <span class="card-title">$name</span>
+                  <h1 id="$name-Score">$points</h1>
                 </div>
                 <div class="card-action">
-                  <a href="#">View team page</a>
+                  <a href="events_page.php">View events page</a>
                 </div>
               </div>
             </div>
+_END;
+					}
+					?>
 
-            <div class="col s12 m7">
-              <div class="card horizontal">
-                <div class="card-image">
-                  <canvas id="Crew2" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
-                </div>
-                <div class="card-content">
-                  <span class="card-title">Off by One</span>
-                  <h1 id="Crew2SCore">[Score]</h1>
-
-                </div>
-                <div class="card-action">
-                  <a href="#">View team page</a>
-                </div>
-              </div>
-            </div>
-            <div class="col s12 m7">
-              <div class="card horizontal">
-                <div class="card-image">
-                  <canvas id="Crew3" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
-                </div>
-                <div class="card-content">
-                  <span class="card-title">Out of Bounds</span>
-                  <h1 id="Crew3Score">[Score]</h1>
-                </div>
-                <div class="card-action">
-                  <a href="#">View team page</a>
-                </div>
-              </div>
-            </div>
           </div>
           <br><br>
         </div>

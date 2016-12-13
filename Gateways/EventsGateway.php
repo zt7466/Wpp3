@@ -20,14 +20,18 @@ require_once 'ConnectionHandler.php';
       {
         $statement = null;
         $successful = false;
+        $id = 0;
 
         try
         {
-          $statement = ConnectionHandler::getConnection()->prepare("INSERT INTO webprog27.Events (Name, Date, Description) VALUES (:name, :date, :description)");
+          //echo $date;
+          $conn = ConnectionHandler::getConnection();
+          $statement = $conn->prepare("INSERT INTO webprog27.Events (Name, Date, Description) VALUES (:name, :date, :description)");
           $statement->bindParam(':name', $name);
-          $statement->bindParam(':date', $date);
-          $statement->bindParam(':description', $description);
+          $statement->bindParam(':date', date("Y-m-d H:i:s", strtotime($date)), PDO::PARAM_STR);
+          $statement->bindParam(':description', $description);          
           $successful = $statement->execute();
+          $id = $conn->lastInsertId();
         }
         catch (PDOException $e)
         {
@@ -36,7 +40,12 @@ require_once 'ConnectionHandler.php';
         }
 
         $statement->closeCursor();
-        return $successful;
+
+        if($successful) {
+          return $id;
+        } else {
+          return false;
+        }
       }
 
       /**

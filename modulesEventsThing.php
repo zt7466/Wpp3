@@ -1,9 +1,9 @@
 <!-- So I don't get yelled at -->
-  <?php 
+  <?php
     require_once 'Gateways/EventsGateway.php';
     require_once 'Gateways/PointsGateway.php';
     require_once 'Gateways/TeamsGateway.php';
-    
+
     $evg = new EventsGateway();
     $events = $evg->getRecentEvents(100); // 100 something something enough for everyone something something
 
@@ -23,12 +23,12 @@
       if($current_id != $event['id']) {
         if($first != true) {
         ?>
-              </div>    
-              <p><?php echo $event_desc; ?></p>   
+              </div>
+              <p><?php echo $event_desc; ?></p>
             </div>
           </div>
         </div>
-        <?php 
+        <?php
         }
 
         $event_name = $event['event_name'];
@@ -41,8 +41,8 @@
         <div class="row s12">
           <div class="card">
             <div class="card-content">
-              <span class="card-title"><?php echo $event_name . " (" . $event_date . ")"; ?></span>   
-              <div class="card horizontal">  
+              <span class="card-title"><?php echo $event_name . " (" . $event_date . ")"; ?></span>
+              <div class="card horizontal">
         <?php } ?>
               <div class="card-stacked" style="background-color: <?php echo $team_bg; ?>;">
                 <div class="card-content white-text">
@@ -51,8 +51,8 @@
                 </div>
               </div>
 <?php } ?>
-        </div>    
-        <p><?php echo $event_desc; ?></p>   
+        </div>
+        <p><?php echo $event_desc; ?></p>
     </div>
     </div>
 </div>

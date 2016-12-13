@@ -30,6 +30,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="assets/lib/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <!--<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
+	<link rel='site icon' href='favicon.ico' type='image/x-icon'/>
 </head>
 <body>
 
@@ -49,7 +50,7 @@
 					$color = $team['Color'];
 					$points = $team['Points'];
 				echo <<<_END
-				<div class="col s12 l4">
+				<div class="col s12 l3">
           <div class="card large">
             <div class="card-image">
               <canvas id="$name" style="padding-left: 0;padding-right: 0;margin-left: auto;margin-right: auto;display: block;"width="215" height="220"></canvas>
@@ -59,7 +60,7 @@
               <h1 id="$name-score">$points</h1>
             </div>
             <div class="card-action">
-              <a href="#">View team page</a>
+              <a href="events_page.php">View events page</a>
             </div>
           </div>
         </div>

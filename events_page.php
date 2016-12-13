@@ -3,7 +3,15 @@
   require_once 'navbar.php';
   require_once 'footer.php';
   session_start();
+  $logged_in = true;
 
+	//Check to make sure the user has a session. Otherwise,
+	//redirect them to the home page.
+	if(strlen($_SESSION['username']) <= 0 || strlen($_SESSION['token']) <= 0)
+	{
+		destroySession();
+    $logged_in = false;
+	}  
 ?>
 <html lang="en">
 <head>
@@ -22,7 +30,15 @@
 
   <div class="container">
   <?php include("modulesEventsThing.php"); ?>
+  <?php if($logged_in) { ?>  
+  <div class="fixed-action-btn">
+    <a class="btn-floating btn-large red" href="event_add.php">
+      <i class="large material-icons">mode_edit</i>
+    </a>
   </div>
+  <?php } ?>
+  </div>
+
 
   <?php displayFooter(); ?>
 
