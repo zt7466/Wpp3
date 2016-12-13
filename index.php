@@ -362,6 +362,7 @@ _END;
 				$logo = $team['Logo'];
 				$color = $team['Color'];
 				$points = $team['Points'];
+				$totalPoints = PointsGateway::sumPoints();
 				$sumPoints = $totalPoints['SumPoints'];
 				$fillAmount = ($points / $sumPoints);
 				echo <<<_END
@@ -376,7 +377,7 @@ _END;
 	              'step': 1,
 	              'circlecolor': '#808080',
 	              'fillcolor': "$color" //Need proper color for crew
-	          }).start( $fillAmount); //This is where the sizes of the drawn color is modified.
+	          }).start( $sumPoints); //This is where the sizes of the drawn color is modified.
 
 
 _END;

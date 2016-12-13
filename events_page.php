@@ -23,71 +23,62 @@
 
   <?php displayNavbar(); ?>
 
-<div class="container">
- <?php 
-    $events = EventsGateway::getAllEvents();
-  
-    echo "<style>table, th, td {border: 1px solid black;}</style>";
-    echo "<table>";
-   foreach($events as $event)
-        {
+  <div class="container">
+  <?php 
+    $evg = new EventsGateway();
+    $events = $evg->getRecentEvents(100); // 100 something something enough for everyone something something
 
-          $points = PointsGateway::retrieveByEventID($event['ID']);
-          $title = $event['Name'];
-          $date = $event['Date'];
-          $description = $event['Description'];
+    $current_id = -1;
 
-          $nullPointerPoints = $points[0]['Points'];
-          $offByOnePoints = $points[0]['Points'];
-          $outOfBoundsPoints = $points[0]['Points'];
+    $event_name;
+    $event_date;
+    $event_desc;
+    $first = true;
 
-          if(is_null($nullPointerPoints))
-          {
-            $nullPointerPoints = 'N/A';
-          }
-          if(is_null($offByOnePoints))
-          {
-            $offByOnePoints = 'N/A';
-          }
-          if(is_null($outOfBoundsPoints))
-          {
-            $outOfBoundsPoints = 'N/A';
-          }
-            echo <<<_END
-          <div class="row s12">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">$title -  $date</span>   
-              <div class="card horizontal">     
-              
-                <div class="card-stacked blue darken-1">
-                  <div class="card-content white-text">
-                    <p>Off By One</p>
-                    <h2>$offByOnePoints</h2>
-                  </div>
-                </div>
-                <div class="card-stacked green darken-1">
-                  <div class="card-content white-text">
-                    <p>Out of Bounds</p>
-                    <h2>$outOfBoundsPoints</h2>
-                  </div>
-                </div>
-                <div class="card-stacked red darken-1">
-                  <div class="card-content white-text">
-                    <p>Null Pointer</p>
-                    <h2>$nullPointerPoints</h2>
-                  </div>
-                </div>
+    foreach($events as $event) {
+      $event_tn = $event['team_name'];
+      $event_tp = $event['points'];
+      $team_bg = $event['team_bg'];
+
+      // Print New Event Header
+      if($current_id != $event['id']) {
+        if($first != true) {
+        ?>
               </div>    
-              <p>$description</p>   
+              <p><?php echo $event_desc; ?></p>   
             </div>
           </div>
-          </div>
-_END;
+        </div>
+        <?php 
+        }
 
-  }
-  echo "</table> <br>";
+        $event_name = $event['event_name'];
+        $event_date = $event['event_date'];
+        $event_desc = $event['event_desc'];
+        $current_id = $event['id'];
+        $first = false;
+
+        ?>
+        <div class="row s12">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title"><?php echo $event_name . " (" . $event_date . ")"; ?></span>   
+              <div class="card horizontal">  
+        <?php } ?>
+              <div class="card-stacked" style="background-color: <?php echo $team_bg; ?>;">
+                <div class="card-content white-text">
+                  <p><?php echo $event_tn; ?></p>
+                  <h2><?php echo $event_tp; ?></h2>
+                </div>
+              </div>
+        <?php
+    }    
    ?>
+              </div>    
+              <p><?php echo $event_desc; ?></p>   
+            </div>
+          </div>
+        </div>
 </div>
 
   <?php displayFooter(); ?>
