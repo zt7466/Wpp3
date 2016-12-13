@@ -25,7 +25,32 @@
                 <?php 
                     if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         require_once 'email/emailHandler.php';
+                        require_once 'Gateways/TeamsGateway.php';
+                        require_once 'Gateways/EventsGateway.php';
                         
+                        $tg = new TeamsGateway();
+                        $teams = $tg->getAllTeams();
+
+                        $email_body = 
+                            "Current Team Scores: \r\n";
+
+                        foreach($teams as $team) {
+                            $email_body = $email_body .
+                                $team['Name'] . ": " . $team['Points'] . '\r\n';
+                        }
+
+                        $email_body = $email_body .
+                            "\r\nRecent Events: \r\n";
+
+                        $evg = new EventsGateway();
+                        $events = $evg->getAllEventsLimit(5);
+
+                        
+
+                        foreach($events as $event) {
+
+                        }
+
                         $mailer = new EmailTools();
                         $result = $mailer->emailEveryone("SUBJECT", "BODY");
                     ?>

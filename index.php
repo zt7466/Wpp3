@@ -7,6 +7,7 @@
 	require_once 'navbar.php';
 	require_once 'footer.php';
 	require_once 'Gateways/TeamsGateway.php';
+	require_once 'Gateways/PointsGateway.php';
 	session_start();
 	//$result = passwordHasher('test', 'password', 'insert');//$gateway->insert("raistlin","password");
 
@@ -354,12 +355,14 @@ _END;
       }
       <?php
 			$teams = TeamsGateway::getAllTeams();
+			$totalPoints = PointsGateway::sumPoints();
 			foreach($teams as $team)
 			{
 				$name = $team['Name'];
 				$logo = $team['Logo'];
 				$color = $team['Color'];
 				$points = $team['Points'];
+				$fillAmount = $points / $totalPoints['Points'] * 100;
 				echo <<<_END
 				var canvas = document.getElementById("$name");
 	          new CircleAnimation({
@@ -372,7 +375,7 @@ _END;
 	              'step': 1,
 	              'circlecolor': '#808080',
 	              'fillcolor': "$color" //Need proper color for crew
-	          }).start( 30 ); //This is where the sizes of the drawn color is modified.
+	          }).start( $fillAmount ); //This is where the sizes of the drawn color is modified.
 
 
 _END;

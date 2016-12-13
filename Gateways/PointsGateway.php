@@ -171,5 +171,30 @@ require_once 'ConnectionHandler.php';
       $statement->closeCursor();
       return $allPoints;
 		}
+
+		/**
+		*	@return the sum of all the points in the points table.
+		*/
+		public function sumPoints()
+		{
+			$statement = null;
+			$sumPoints = null;
+
+			try
+			{
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT SUM(Points.Points) AS Points FROM webprog27.Points");
+				$statement->execute();
+				$sumPoints = $statement->fetchAll();
+			}
+			catch (PDOException $e)
+      {
+				$successful = false;
+        // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+      }
+
+      $statement->closeCursor();
+      return $sumPoints;
+		}
+
 	}
 ?>
