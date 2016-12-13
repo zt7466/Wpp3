@@ -36,23 +36,34 @@
 
                         foreach($teams as $team) {
                             $email_body = $email_body .
-                                $team['Name'] . ": " . $team['Points'] . '\r\n';
+                                $team['Name'] . ": " . $team['Points'] . "\r\n";
                         }
 
                         $email_body = $email_body .
                             "\r\nRecent Events: \r\n";
 
                         $evg = new EventsGateway();
-                        $events = $evg->getAllEventsLimit(5);
+                        $events = $evg->getRecentEvents(5);
 
-                        
+                        $current_id = -1;
 
                         foreach($events as $event) {
+                            // Print New Event Header
+                            if($current_id != $event['id']) {
+                                $email_body = $email_body .
+                                "-------------------------------------------------\r\n" .
+                                $event['event_name'] . " (" . $event['event_date'] . ")\r\n" .
+                                $event['event_desc'] . "\r\n\r\n";
 
+                                $current_id = $event['id'];
+                            }
+
+                            $email_body = $email_body . 
+                                $event['team_name'] . ": " . $event['points'] . " points\r\n";
                         }
 
                         $mailer = new EmailTools();
-                        $result = $mailer->emailEveryone("SUBJECT", "BODY");
+                        $result = $mailer->emailEveryone("Crew Scoreboard Update", $email_body);
                     ?>
                     <h3>Emails sent</h3>
 

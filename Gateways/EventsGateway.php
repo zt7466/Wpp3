@@ -117,6 +117,31 @@ require_once 'ConnectionHandler.php';
       }
 
       /**
+       * @return recent events joined to points joined to teams
+       */
+      public static function getRecentEvents($limit)
+      {
+        $statement = null;
+        $allEvents = null;
+
+        try
+        {
+          $statement = ConnectionHandler::getConnection()->prepare("SELECT e.ID as id, e.Name as event_name, e.Date as event_date, e.Description as event_desc, t.Name as team_name, p.Points as points FROM Events e JOIN Points p ON p.EventID = e.ID JOIN Teams t ON p.TeamID = t.ID ORDER BY e.Date DESC LIMIT :limit");
+          $statement->bindParam(':limit', $limit);
+          $statement->execute();
+          $allEvents = $statement->fetchAll();
+        }
+        catch(PDOException $e)
+        {
+          $successful = false;
+          // echo "\n\n\nERROR: " . $e->getMessage() . "\n\n\n";
+        }
+
+        $statement->closeCursor();
+        return $allEvents;
+      }
+
+      /**
        * updates an event
        *
        * @param  $id

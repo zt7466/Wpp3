@@ -56,7 +56,7 @@
             </div>
             <div class="card-content">
               <span class="card-title">$name</span>
-              <h1 id="$name.score">$points</h1>
+              <h1 id="$name-score">$points</h1>
             </div>
             <div class="card-action">
               <a href="#">View team page</a>
@@ -362,7 +362,8 @@ _END;
 				$logo = $team['Logo'];
 				$color = $team['Color'];
 				$points = $team['Points'];
-				$fillAmount = $points / $totalPoints['Points'] * 100;
+				$sumPoints = $totalPoints['SumPoints'];
+				$fillAmount = ($points / $sumPoints);
 				echo <<<_END
 				var canvas = document.getElementById("$name");
 	          new CircleAnimation({
@@ -375,7 +376,7 @@ _END;
 	              'step': 1,
 	              'circlecolor': '#808080',
 	              'fillcolor': "$color" //Need proper color for crew
-	          }).start( $fillAmount ); //This is where the sizes of the drawn color is modified.
+	          }).start( $fillAmount); //This is where the sizes of the drawn color is modified.
 
 
 _END;

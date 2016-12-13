@@ -182,7 +182,7 @@ require_once 'ConnectionHandler.php';
 
 			try
 			{
-				$statement = ConnectionHandler::getConnection()->prepare("SELECT SUM(Points.Points) AS Points FROM webprog27.Points");
+				$statement = ConnectionHandler::getConnection()->prepare("SELECT SUM(Points.Points) AS SumPoints FROM webprog27.Points");
 				$statement->execute();
 				$sumPoints = $statement->fetchAll();
 			}
