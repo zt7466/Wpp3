@@ -232,3 +232,30 @@ END;
 	 * End Raistlin Hess   *
 	 *---------------------*/
 ?>
+
+  <script type="text/javascript">
+	/**
+	 * @author Drew Rife
+	 *
+	 * Checks to see if the passwords match when changing the password 
+	 */
+	function checkPasswordsMatch()
+	{
+		var password = document.getElementById("new_password").value;
+		var confirmed_password = document.getElementById("confirm").value;
+		
+		/* check if the password fields match or not */
+		if(password !== confirmed_password)
+		{
+			alert("Error: password fields do not match");
+			document.getElementById("new_password").value = "";
+			document.getElementById("confirm").value = "";
+			return false;
+		}
+		else
+		{
+			document.getElementById("changePassForm").submit();
+			return true;
+		}
+	}
+	</script>
